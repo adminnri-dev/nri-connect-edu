@@ -9,8 +9,8 @@ const Contact = () => {
     {
       icon: Phone,
       title: "Phone",
-      detail: "+91 99999 99999",
-      link: "tel:+919999999999"
+      detail: "+91 9618139109",
+      link: "tel:+919618139109"
     },
     {
       icon: Mail,
@@ -21,7 +21,7 @@ const Contact = () => {
     {
       icon: MapPin,
       title: "Address",
-      detail: "123 Education Street, City Name, State - 400001",
+      detail: "C-48, Gurudwara Rd, Opp HDFC ATM, Dwarakamai Nagar Colony, Vanasthalipuram, Hyderabad, Telangana 500070",
       link: "#"
     },
     {

@@ -1,4 +1,5 @@
-import { GraduationCap, Facebook, Instagram, Youtube, Linkedin } from "lucide-react";
+import { Facebook, Instagram, Youtube, Linkedin } from "lucide-react";
+import logo from "@/assets/nri-logo.png";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -10,9 +11,7 @@ const Footer = () => {
           {/* About */}
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <div className="bg-gradient-secondary p-2 rounded-lg">
-                <GraduationCap className="w-6 h-6 text-secondary-foreground" />
-              </div>
+              <img src={logo} alt="NRI High School Logo" className="w-12 h-12 object-contain" />
               <span className="font-bold text-lg">NRI High School</span>
             </div>
             <p className="text-background/80 text-sm leading-relaxed">
@@ -46,9 +45,11 @@ const Footer = () => {
           <div>
             <h4 className="font-bold mb-4">Contact Us</h4>
             <ul className="space-y-2 text-sm text-background/80">
-              <li>123 Education Street</li>
-              <li>City Name, State - 400001</li>
-              <li>Phone: +91 99999 99999</li>
+              <li>C-48, Gurudwara Rd</li>
+              <li>Opp HDFC ATM, Dwarakamai Nagar Colony</li>
+              <li>Vanasthalipuram, Hyderabad</li>
+              <li>Telangana 500070</li>
+              <li>Phone: +91 9618139109</li>
               <li>Email: info@nrihighschool.edu</li>
             </ul>
           </div>
