@@ -11,6 +11,9 @@ import Signup from "./pages/auth/Signup";
 import ForgotPassword from "./pages/auth/ForgotPassword";
 import ResetPassword from "./pages/auth/ResetPassword";
 import Dashboard from "./pages/Dashboard";
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import StudentDashboard from "./pages/student/StudentDashboard";
+import TeacherDashboard from "./pages/teacher/TeacherDashboard";
 import Unauthorized from "./pages/Unauthorized";
 import NotFound from "./pages/NotFound";
 
@@ -27,10 +30,13 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/auth/login" element={<Login />} />
           <Route path="/auth/signup" element={<Signup />} />
-          <Route path="/auth/forgot-password" element={<ForgotPassword />} />
-          <Route path="/auth/reset-password" element={<ResetPassword />} />
-          <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-          <Route path="/unauthorized" element={<Unauthorized />} />
+            <Route path="/auth/forgot-password" element={<ForgotPassword />} />
+            <Route path="/auth/reset-password" element={<ResetPassword />} />
+            <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+            <Route path="/admin" element={<ProtectedRoute allowedRoles={['admin']}><AdminDashboard /></ProtectedRoute>} />
+            <Route path="/student" element={<ProtectedRoute allowedRoles={['student']}><StudentDashboard /></ProtectedRoute>} />
+            <Route path="/teacher" element={<ProtectedRoute allowedRoles={['teacher']}><TeacherDashboard /></ProtectedRoute>} />
+            <Route path="/unauthorized" element={<Unauthorized />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
