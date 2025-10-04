@@ -7,13 +7,6 @@ import TeacherDashboard from './teacher/TeacherDashboard';
 
 export default function Dashboard() {
   const { userRole, loading } = useAuth();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (!loading && !userRole) {
-      navigate('/auth/login');
-    }
-  }, [userRole, loading, navigate]);
 
   if (loading) {
     return (
