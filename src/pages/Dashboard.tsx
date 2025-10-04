@@ -4,6 +4,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import AdminDashboard from './admin/AdminDashboard';
 import StudentDashboard from './student/StudentDashboard';
 import TeacherDashboard from './teacher/TeacherDashboard';
+import ParentDashboard from './parent/ParentDashboard';
 
 export default function Dashboard() {
   const { userRole, loading } = useAuth();
@@ -22,6 +23,10 @@ export default function Dashboard() {
 
   if (userRole === 'teacher') {
     return <TeacherDashboard />;
+  }
+
+  if (userRole === 'parent') {
+    return <ParentDashboard />;
   }
 
   return <StudentDashboard />;

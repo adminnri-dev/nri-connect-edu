@@ -2,12 +2,15 @@ import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { LogOut, Users, BookOpen, GraduationCap, Bell, Calendar, FileText } from 'lucide-react';
+import { LogOut, Users, BookOpen, GraduationCap, Bell, Calendar, FileText, UserPlus, Clock } from 'lucide-react';
 import UserManagement from '@/components/admin/UserManagement';
 import ClassManagement from '@/components/admin/ClassManagement';
 import AttendanceManagement from '@/components/admin/AttendanceManagement';
 import AnnouncementManagement from '@/components/admin/AnnouncementManagement';
 import GradeManagement from '@/components/admin/GradeManagement';
+import EnrollmentManagement from '@/components/admin/EnrollmentManagement';
+import ReportCardManagement from '@/components/admin/ReportCardManagement';
+import TimetableManagement from '@/components/admin/TimetableManagement';
 
 export default function AdminDashboard() {
   const { user, signOut } = useAuth();
@@ -31,12 +34,15 @@ export default function AdminDashboard() {
         </div>
 
         <Tabs defaultValue="overview" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-7 lg:w-auto">
+          <TabsList className="grid w-full grid-cols-5 lg:grid-cols-10 lg:w-auto">
             <TabsTrigger value="overview">Overview</TabsTrigger>
             <TabsTrigger value="users">Users</TabsTrigger>
             <TabsTrigger value="classes">Classes</TabsTrigger>
+            <TabsTrigger value="enrollments">Enrollments</TabsTrigger>
             <TabsTrigger value="attendance">Attendance</TabsTrigger>
             <TabsTrigger value="grades">Grades</TabsTrigger>
+            <TabsTrigger value="reports">Reports</TabsTrigger>
+            <TabsTrigger value="timetable">Timetable</TabsTrigger>
             <TabsTrigger value="announcements">Announcements</TabsTrigger>
             <TabsTrigger value="courses">Courses</TabsTrigger>
           </TabsList>
@@ -116,8 +122,20 @@ export default function AdminDashboard() {
             <AttendanceManagement />
           </TabsContent>
 
+          <TabsContent value="enrollments">
+            <EnrollmentManagement />
+          </TabsContent>
+
           <TabsContent value="grades">
             <GradeManagement />
+          </TabsContent>
+
+          <TabsContent value="reports">
+            <ReportCardManagement />
+          </TabsContent>
+
+          <TabsContent value="timetable">
+            <TimetableManagement />
           </TabsContent>
 
           <TabsContent value="announcements">

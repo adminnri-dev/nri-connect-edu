@@ -251,6 +251,30 @@ export type Database = {
           },
         ]
       }
+      parent_student_links: {
+        Row: {
+          created_at: string
+          id: string
+          parent_user_id: string
+          relationship: string
+          student_user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          parent_user_id: string
+          relationship: string
+          student_user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          parent_user_id?: string
+          relationship?: string
+          student_user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string
@@ -278,6 +302,84 @@ export type Database = {
           phone?: string | null
           updated_at?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      report_cards: {
+        Row: {
+          academic_year: string
+          class_id: string
+          created_at: string
+          generated_at: string
+          generated_by: string
+          id: string
+          overall_grade: string | null
+          overall_percentage: number | null
+          principal_comments: string | null
+          student_id: string
+          teacher_comments: string | null
+          term: string
+          updated_at: string
+        }
+        Insert: {
+          academic_year: string
+          class_id: string
+          created_at?: string
+          generated_at?: string
+          generated_by: string
+          id?: string
+          overall_grade?: string | null
+          overall_percentage?: number | null
+          principal_comments?: string | null
+          student_id: string
+          teacher_comments?: string | null
+          term: string
+          updated_at?: string
+        }
+        Update: {
+          academic_year?: string
+          class_id?: string
+          created_at?: string
+          generated_at?: string
+          generated_by?: string
+          id?: string
+          overall_grade?: string | null
+          overall_percentage?: number | null
+          principal_comments?: string | null
+          student_id?: string
+          teacher_comments?: string | null
+          term?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      student_enrollments: {
+        Row: {
+          class_id: string
+          created_at: string
+          enrollment_date: string
+          id: string
+          status: string
+          student_id: string
+          updated_at: string
+        }
+        Insert: {
+          class_id: string
+          created_at?: string
+          enrollment_date?: string
+          id?: string
+          status?: string
+          student_id: string
+          updated_at?: string
+        }
+        Update: {
+          class_id?: string
+          created_at?: string
+          enrollment_date?: string
+          id?: string
+          status?: string
+          student_id?: string
+          updated_at?: string
         }
         Relationships: []
       }
@@ -323,6 +425,45 @@ export type Database = {
           section?: string
           updated_at?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      timetable: {
+        Row: {
+          academic_year: string
+          class_id: string
+          created_at: string
+          day_of_week: string
+          end_time: string
+          id: string
+          room_number: string | null
+          start_time: string
+          subject: string
+          updated_at: string
+        }
+        Insert: {
+          academic_year: string
+          class_id: string
+          created_at?: string
+          day_of_week: string
+          end_time: string
+          id?: string
+          room_number?: string | null
+          start_time: string
+          subject: string
+          updated_at?: string
+        }
+        Update: {
+          academic_year?: string
+          class_id?: string
+          created_at?: string
+          day_of_week?: string
+          end_time?: string
+          id?: string
+          room_number?: string | null
+          start_time?: string
+          subject?: string
+          updated_at?: string
         }
         Relationships: []
       }
