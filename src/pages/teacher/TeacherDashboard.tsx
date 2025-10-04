@@ -1,10 +1,72 @@
 import { useAuth } from '@/contexts/AuthContext';
+import { useState, useEffect } from 'react';
+import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { LogOut, BookOpen, Users, CheckSquare } from 'lucide-react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { LogOut, BookOpen, Users, FileText, Calendar, Megaphone } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
+import AttendanceManagement from '@/components/admin/AttendanceManagement';
+import GradeManagement from '@/components/admin/GradeManagement';
+import AnnouncementManagement from '@/components/admin/AnnouncementManagement';
+
+interface ClassData {
+  id: string;
+  name: string;
+  section: string;
+  academic_year: string;
+}
 
 export default function TeacherDashboard() {
   const { user, signOut } = useAuth();
+  const [classes, setClasses] = useState<ClassData[]>([]);
+  const [totalStudents, setTotalStudents] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const { toast } = useToast();
+
+  useEffect(() => {
+    if (user) {
+      fetchTeacherData();
+    }
+  }, [user]);
+
+  const fetchTeacherData = async () => {
+    try {
+      // Fetch classes assigned to this teacher
+      const { data: classesData, error: classesError } = await supabase
+        .from('classes')
+        .select('id, name, section, academic_year')
+        .eq('teacher_id', user?.id);
+
+      if (classesError) throw classesError;
+
+      setClasses(classesData || []);
+
+      // Get total count of unique students across all classes
+      const classIds = classesData?.map(c => c.id) || [];
+      
+      if (classIds.length > 0) {
+        const { data: attendanceData, error: attendanceError } = await supabase
+          .from('attendance')
+          .select('student_id')
+          .in('class_id', classIds);
+
+        if (attendanceError) throw attendanceError;
+
+        const uniqueStudents = new Set(attendanceData?.map(a => a.student_id));
+        setTotalStudents(uniqueStudents.size);
+      }
+
+    } catch (error: any) {
+      toast({
+        title: 'Error',
+        description: error.message || 'Failed to fetch data',
+        variant: 'destructive',
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background to-accent/20">
@@ -24,64 +86,99 @@ export default function TeacherDashboard() {
           <p className="text-muted-foreground">{user?.email}</p>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mb-6">
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">My Classes</CardTitle>
-              <BookOpen className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">--</div>
-              <p className="text-xs text-muted-foreground">Classes assigned to you</p>
-            </CardContent>
-          </Card>
+        {loading ? (
+          <div className="text-center py-8">Loading your data...</div>
+        ) : (
+          <>
+            <div className="grid gap-6 md:grid-cols-3 mb-6">
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">My Classes</CardTitle>
+                  <BookOpen className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">{classes.length}</div>
+                  <p className="text-xs text-muted-foreground">Classes assigned to you</p>
+                </CardContent>
+              </Card>
 
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Students</CardTitle>
-              <Users className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">--</div>
-              <p className="text-xs text-muted-foreground">Across all classes</p>
-            </CardContent>
-          </Card>
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">Total Students</CardTitle>
+                  <Users className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">{totalStudents}</div>
+                  <p className="text-xs text-muted-foreground">Across all classes</p>
+                </CardContent>
+              </Card>
 
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Pending Tasks</CardTitle>
-              <CheckSquare className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">--</div>
-              <p className="text-xs text-muted-foreground">Attendance & grading</p>
-            </CardContent>
-          </Card>
-        </div>
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">Active Classes</CardTitle>
+                  <Calendar className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">{classes.filter(c => c.academic_year === new Date().getFullYear().toString()).length}</div>
+                  <p className="text-xs text-muted-foreground">This academic year</p>
+                </CardContent>
+              </Card>
+            </div>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Quick Actions</CardTitle>
-            <CardDescription>Common teaching tasks</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-2">
-            <Button className="w-full justify-start">Mark Attendance</Button>
-            <Button className="w-full justify-start" variant="outline">Add Grades</Button>
-            <Button className="w-full justify-start" variant="outline">Post Announcement</Button>
-          </CardContent>
-        </Card>
+            <Tabs defaultValue="classes" className="space-y-6">
+              <TabsList>
+                <TabsTrigger value="classes">My Classes</TabsTrigger>
+                <TabsTrigger value="attendance">Attendance</TabsTrigger>
+                <TabsTrigger value="grades">Grades</TabsTrigger>
+                <TabsTrigger value="announcements">Announcements</TabsTrigger>
+              </TabsList>
 
-        <Card className="mt-6">
-          <CardHeader>
-            <CardTitle>Today's Classes</CardTitle>
-            <CardDescription>Your schedule for today</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <p className="text-center text-muted-foreground py-8">
-              Class scheduling coming in Phase 3
-            </p>
-          </CardContent>
-        </Card>
+              <TabsContent value="classes">
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Your Classes</CardTitle>
+                    <CardDescription>Classes assigned to you</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    {classes.length === 0 ? (
+                      <p className="text-center text-muted-foreground py-8">
+                        No classes assigned yet. Contact your administrator.
+                      </p>
+                    ) : (
+                      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                        {classes.map((cls) => (
+                          <Card key={cls.id}>
+                            <CardHeader>
+                              <CardTitle className="text-lg">{cls.name}</CardTitle>
+                              <CardDescription>Section {cls.section}</CardDescription>
+                            </CardHeader>
+                            <CardContent>
+                              <p className="text-sm text-muted-foreground">
+                                Academic Year: {cls.academic_year}
+                              </p>
+                            </CardContent>
+                          </Card>
+                        ))}
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              </TabsContent>
+
+              <TabsContent value="attendance">
+                <AttendanceManagement />
+              </TabsContent>
+
+              <TabsContent value="grades">
+                <GradeManagement />
+              </TabsContent>
+
+              <TabsContent value="announcements">
+                <AnnouncementManagement />
+              </TabsContent>
+            </Tabs>
+          </>
+        )}
       </main>
     </div>
   );
