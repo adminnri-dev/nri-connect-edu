@@ -2,17 +2,18 @@ import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import logo from "@/assets/nri-logo.png";
-import EnrollmentDialog from "./EnrollmentDialog";
+import AdmissionInquiryDialog from "./AdmissionInquiryDialog";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [enrollDialogOpen, setEnrollDialogOpen] = useState(false);
+  const [inquiryDialogOpen, setInquiryDialogOpen] = useState(false);
 
   const navItems = [
     { name: "Home", href: "#home" },
     { name: "About", href: "#about" },
     { name: "Academics", href: "#academics" },
     { name: "Facilities", href: "#facilities" },
+    { name: "Gallery", href: "#gallery" },
     { name: "Admissions", href: "#admissions" },
     { name: "Contact", href: "#contact" },
   ];
@@ -47,7 +48,7 @@ const Header = () => {
           <div className="hidden lg:block">
             <Button 
               className="bg-gradient-secondary hover:opacity-90"
-              onClick={() => setEnrollDialogOpen(true)}
+              onClick={() => setInquiryDialogOpen(true)}
             >
               Apply Now
             </Button>
@@ -83,7 +84,7 @@ const Header = () => {
             <div className="pt-4">
               <Button 
                 className="w-full bg-gradient-secondary hover:opacity-90"
-                onClick={() => setEnrollDialogOpen(true)}
+                onClick={() => setInquiryDialogOpen(true)}
               >
                 Apply Now
               </Button>
@@ -92,7 +93,10 @@ const Header = () => {
         )}
       </div>
 
-      <EnrollmentDialog open={enrollDialogOpen} onOpenChange={setEnrollDialogOpen} />
+      <AdmissionInquiryDialog 
+        open={inquiryDialogOpen} 
+        onOpenChange={setInquiryDialogOpen}
+      />
     </header>
   );
 };

@@ -42,12 +42,9 @@ const Admissions = () => {
           <h3 className="text-3xl md:text-4xl font-bold text-primary-foreground mb-4">
             Admissions Open for Academic Year 2025-26
           </h3>
-          <p className="text-primary-foreground/90 text-lg mb-6 max-w-2xl mx-auto">
+          <p className="text-primary-foreground/90 text-lg max-w-2xl mx-auto">
             Limited seats available for Nursery to Class 10. Early bird discounts applicable.
           </p>
-          <Button size="lg" className="bg-secondary hover:opacity-90">
-            Apply Now
-          </Button>
         </Card>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
