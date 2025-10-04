@@ -8,6 +8,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Badge } from '@/components/ui/badge';
 import { LogOut, FileText, Calendar, Bell, CheckCircle, XCircle, Clock } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import AnnouncementsList from '@/components/AnnouncementsList';
 
 interface Grade {
   assignment_name: string;
@@ -153,6 +154,10 @@ export default function StudentDashboard() {
         <div className="mb-6">
           <h2 className="text-3xl font-bold mb-2">Welcome Back!</h2>
           <p className="text-muted-foreground">{user?.email}</p>
+        </div>
+
+        <div className="mb-8">
+          <AnnouncementsList userRole="student" />
         </div>
 
         {loading ? (

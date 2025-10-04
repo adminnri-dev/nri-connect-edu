@@ -6,6 +6,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/hooks/use-toast';
 import { BookOpen, Calendar, FileText, GraduationCap } from 'lucide-react';
+import AnnouncementsList from '@/components/AnnouncementsList';
 
 interface LinkedStudent {
   id: string;
@@ -179,6 +180,8 @@ export default function ParentDashboard() {
           <h1 className="text-3xl font-bold mb-2">Parent Portal</h1>
           <p className="text-muted-foreground">View your child's academic information</p>
         </div>
+
+        <AnnouncementsList userRole="parent" />
 
         {linkedStudents.length > 1 && (
           <Card>

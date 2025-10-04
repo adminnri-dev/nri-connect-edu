@@ -9,6 +9,7 @@ import { useToast } from '@/hooks/use-toast';
 import AttendanceManagement from '@/components/admin/AttendanceManagement';
 import GradeManagement from '@/components/admin/GradeManagement';
 import AnnouncementManagement from '@/components/admin/AnnouncementManagement';
+import AnnouncementsList from '@/components/AnnouncementsList';
 
 interface ClassData {
   id: string;
@@ -84,6 +85,10 @@ export default function TeacherDashboard() {
         <div className="mb-6">
           <h2 className="text-3xl font-bold mb-2">Welcome, Teacher!</h2>
           <p className="text-muted-foreground">{user?.email}</p>
+        </div>
+
+        <div className="mb-8">
+          <AnnouncementsList userRole="teacher" />
         </div>
 
         {loading ? (

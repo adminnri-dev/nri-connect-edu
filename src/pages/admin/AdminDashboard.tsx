@@ -11,6 +11,8 @@ import GradeManagement from '@/components/admin/GradeManagement';
 import EnrollmentManagement from '@/components/admin/EnrollmentManagement';
 import ReportCardManagement from '@/components/admin/ReportCardManagement';
 import TimetableManagement from '@/components/admin/TimetableManagement';
+import StudentProfileManagement from '@/components/admin/StudentProfileManagement';
+import AnnouncementsList from '@/components/AnnouncementsList';
 
 export default function AdminDashboard() {
   const { user, signOut } = useAuth();
@@ -33,10 +35,15 @@ export default function AdminDashboard() {
           <p className="text-muted-foreground">{user?.email}</p>
         </div>
 
+        <div className="mb-8">
+          <AnnouncementsList userRole="admin" />
+        </div>
+
         <Tabs defaultValue="overview" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-5 lg:grid-cols-10 lg:w-auto">
+          <TabsList className="grid w-full grid-cols-5 lg:grid-cols-11 lg:w-auto">
             <TabsTrigger value="overview">Overview</TabsTrigger>
             <TabsTrigger value="users">Users</TabsTrigger>
+            <TabsTrigger value="students">Students</TabsTrigger>
             <TabsTrigger value="classes">Classes</TabsTrigger>
             <TabsTrigger value="enrollments">Enrollments</TabsTrigger>
             <TabsTrigger value="attendance">Attendance</TabsTrigger>
@@ -112,6 +119,10 @@ export default function AdminDashboard() {
 
           <TabsContent value="users">
             <UserManagement />
+          </TabsContent>
+
+          <TabsContent value="students">
+            <StudentProfileManagement />
           </TabsContent>
 
           <TabsContent value="classes">
