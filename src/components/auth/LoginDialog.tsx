@@ -11,15 +11,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
-import { Eye, EyeOff } from 'lucide-react';
+import { Eye, EyeOff, GraduationCap, Users, ShieldCheck } from 'lucide-react';
 
 interface LoginDialogProps {
   open: boolean;
@@ -87,17 +80,45 @@ export default function LoginDialog({ open, onOpenChange }: LoginDialogProps) {
         </DialogHeader>
         <form onSubmit={handleLogin} className="space-y-4 mt-4">
           <div className="space-y-2">
-            <Label htmlFor="roleType">Login As</Label>
-            <Select value={roleType} onValueChange={setRoleType}>
-              <SelectTrigger>
-                <SelectValue placeholder="Select role" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="student">Student</SelectItem>
-                <SelectItem value="teacher">Teacher</SelectItem>
-                <SelectItem value="admin">Admin</SelectItem>
-              </SelectContent>
-            </Select>
+            <Label>Login As</Label>
+            <div className="grid grid-cols-3 gap-2">
+              <button
+                type="button"
+                onClick={() => setRoleType('student')}
+                className={`flex flex-col items-center gap-2 p-4 rounded-lg border-2 transition-all ${
+                  roleType === 'student'
+                    ? 'border-primary bg-primary/10'
+                    : 'border-border hover:border-primary/50'
+                }`}
+              >
+                <GraduationCap className="h-6 w-6" />
+                <span className="text-sm font-medium">Student</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setRoleType('teacher')}
+                className={`flex flex-col items-center gap-2 p-4 rounded-lg border-2 transition-all ${
+                  roleType === 'teacher'
+                    ? 'border-primary bg-primary/10'
+                    : 'border-border hover:border-primary/50'
+                }`}
+              >
+                <Users className="h-6 w-6" />
+                <span className="text-sm font-medium">Teacher</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setRoleType('admin')}
+                className={`flex flex-col items-center gap-2 p-4 rounded-lg border-2 transition-all ${
+                  roleType === 'admin'
+                    ? 'border-primary bg-primary/10'
+                    : 'border-border hover:border-primary/50'
+                }`}
+              >
+                <ShieldCheck className="h-6 w-6" />
+                <span className="text-sm font-medium">Admin</span>
+              </button>
+            </div>
           </div>
           <div className="space-y-2">
             <Label htmlFor="email">Email</Label>
