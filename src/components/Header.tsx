@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, LogIn } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 import logo from "@/assets/nri-logo.png";
 import AdmissionInquiryDialog from "./AdmissionInquiryDialog";
 
@@ -44,8 +45,17 @@ const Header = () => {
             ))}
           </nav>
 
-          {/* CTA Button */}
-          <div className="hidden lg:block">
+          {/* CTA Buttons */}
+          <div className="hidden lg:flex items-center gap-3">
+            <Button 
+              variant="outline"
+              asChild
+            >
+              <Link to="/auth/login" className="gap-2">
+                <LogIn className="w-4 h-4" />
+                Login
+              </Link>
+            </Button>
             <Button 
               className="bg-gradient-secondary hover:opacity-90"
               onClick={() => setInquiryDialogOpen(true)}
@@ -81,7 +91,17 @@ const Header = () => {
                 {item.name}
               </a>
             ))}
-            <div className="pt-4">
+            <div className="pt-4 space-y-2">
+              <Button 
+                variant="outline"
+                className="w-full"
+                asChild
+              >
+                <Link to="/auth/login" className="gap-2">
+                  <LogIn className="w-4 h-4" />
+                  Login
+                </Link>
+              </Button>
               <Button 
                 className="w-full bg-gradient-secondary hover:opacity-90"
                 onClick={() => setInquiryDialogOpen(true)}
