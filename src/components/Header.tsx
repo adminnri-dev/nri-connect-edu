@@ -51,9 +51,8 @@ const Header = () => {
           {/* CTA Buttons */}
           <div className="hidden lg:flex items-center gap-3">
             <Button 
-              variant="outline"
               onClick={() => setLoginDialogOpen(true)}
-              className="gap-2"
+              className="gap-2 bg-blue-600 hover:bg-blue-700 text-white"
             >
               <LogIn className="w-4 h-4" />
               Login
@@ -103,8 +102,7 @@ const Header = () => {
             ))}
             <div className="pt-4 space-y-2">
               <Button 
-                variant="outline"
-                className="w-full gap-2"
+                className="w-full gap-2 bg-blue-600 hover:bg-blue-700 text-white"
                 onClick={() => {
                   setLoginDialogOpen(true);
                   setIsMenuOpen(false);
