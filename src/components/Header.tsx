@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { Menu, X, LogIn } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
 import logo from "@/assets/nri-logo.png";
 import AdmissionInquiryDialog from "./AdmissionInquiryDialog";
+import LoginDialog from "./auth/LoginDialog";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [inquiryDialogOpen, setInquiryDialogOpen] = useState(false);
+  const [loginDialogOpen, setLoginDialogOpen] = useState(false);
 
   const navItems = [
     { name: "Home", href: "#home" },
@@ -49,12 +50,11 @@ const Header = () => {
           <div className="hidden lg:flex items-center gap-3">
             <Button 
               variant="outline"
-              asChild
+              onClick={() => setLoginDialogOpen(true)}
+              className="gap-2"
             >
-              <Link to="/auth/login" className="gap-2">
-                <LogIn className="w-4 h-4" />
-                Login
-              </Link>
+              <LogIn className="w-4 h-4" />
+              Login
             </Button>
             <Button 
               className="bg-gradient-secondary hover:opacity-90"
@@ -94,17 +94,21 @@ const Header = () => {
             <div className="pt-4 space-y-2">
               <Button 
                 variant="outline"
-                className="w-full"
-                asChild
+                className="w-full gap-2"
+                onClick={() => {
+                  setLoginDialogOpen(true);
+                  setIsMenuOpen(false);
+                }}
               >
-                <Link to="/auth/login" className="gap-2">
-                  <LogIn className="w-4 h-4" />
-                  Login
-                </Link>
+                <LogIn className="w-4 h-4" />
+                Login
               </Button>
               <Button 
                 className="w-full bg-gradient-secondary hover:opacity-90"
-                onClick={() => setInquiryDialogOpen(true)}
+                onClick={() => {
+                  setInquiryDialogOpen(true);
+                  setIsMenuOpen(false);
+                }}
               >
                 Apply Now
               </Button>
@@ -116,6 +120,10 @@ const Header = () => {
       <AdmissionInquiryDialog 
         open={inquiryDialogOpen} 
         onOpenChange={setInquiryDialogOpen}
+      />
+      <LoginDialog 
+        open={loginDialogOpen} 
+        onOpenChange={setLoginDialogOpen}
       />
     </header>
   );
