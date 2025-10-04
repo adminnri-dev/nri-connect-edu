@@ -1,8 +1,12 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Award, Users, BookOpen } from "lucide-react";
 import heroImage from "@/assets/hero-school.jpg";
+import EnrollmentDialog from "./EnrollmentDialog";
 
 const Hero = () => {
+  const [enrollDialogOpen, setEnrollDialogOpen] = useState(false);
+
   return (
     <section id="home" className="relative min-h-screen flex items-center pt-20">
       {/* Background Image with Overlay */}
@@ -33,7 +37,11 @@ const Hero = () => {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 mb-12">
-            <Button size="lg" className="bg-secondary hover:opacity-90 text-secondary-foreground">
+            <Button 
+              size="lg" 
+              className="bg-secondary hover:opacity-90 text-secondary-foreground"
+              onClick={() => setEnrollDialogOpen(true)}
+            >
               Enroll Now <ArrowRight className="ml-2 w-5 h-5" />
             </Button>
             <Button size="lg" variant="outline" className="border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10">
@@ -67,6 +75,8 @@ const Hero = () => {
           </div>
         </div>
       </div>
+
+      <EnrollmentDialog open={enrollDialogOpen} onOpenChange={setEnrollDialogOpen} />
     </section>
   );
 };

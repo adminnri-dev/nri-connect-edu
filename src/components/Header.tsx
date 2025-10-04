@@ -2,9 +2,11 @@ import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import logo from "@/assets/nri-logo.png";
+import EnrollmentDialog from "./EnrollmentDialog";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [enrollDialogOpen, setEnrollDialogOpen] = useState(false);
 
   const navItems = [
     { name: "Home", href: "#home" },
@@ -43,7 +45,10 @@ const Header = () => {
 
           {/* CTA Button */}
           <div className="hidden lg:block">
-            <Button className="bg-gradient-secondary hover:opacity-90">
+            <Button 
+              className="bg-gradient-secondary hover:opacity-90"
+              onClick={() => setEnrollDialogOpen(true)}
+            >
               Apply Now
             </Button>
           </div>
@@ -76,13 +81,18 @@ const Header = () => {
               </a>
             ))}
             <div className="pt-4">
-              <Button className="w-full bg-gradient-secondary hover:opacity-90">
+              <Button 
+                className="w-full bg-gradient-secondary hover:opacity-90"
+                onClick={() => setEnrollDialogOpen(true)}
+              >
                 Apply Now
               </Button>
             </div>
           </nav>
         )}
       </div>
+
+      <EnrollmentDialog open={enrollDialogOpen} onOpenChange={setEnrollDialogOpen} />
     </header>
   );
 };
