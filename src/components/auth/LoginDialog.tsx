@@ -11,6 +11,13 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
 import { Eye, EyeOff } from 'lucide-react';
 
@@ -22,6 +29,7 @@ interface LoginDialogProps {
 export default function LoginDialog({ open, onOpenChange }: LoginDialogProps) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [roleType, setRoleType] = useState<string>('student');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -78,6 +86,19 @@ export default function LoginDialog({ open, onOpenChange }: LoginDialogProps) {
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleLogin} className="space-y-4 mt-4">
+          <div className="space-y-2">
+            <Label htmlFor="roleType">Login As</Label>
+            <Select value={roleType} onValueChange={setRoleType}>
+              <SelectTrigger>
+                <SelectValue placeholder="Select role" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="student">Student</SelectItem>
+                <SelectItem value="teacher">Teacher</SelectItem>
+                <SelectItem value="admin">Admin</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
           <div className="space-y-2">
             <Label htmlFor="email">Email</Label>
             <Input

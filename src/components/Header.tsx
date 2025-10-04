@@ -1,14 +1,16 @@
 import { useState } from "react";
-import { Menu, X, LogIn } from "lucide-react";
+import { Menu, X, LogIn, UserPlus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import logo from "@/assets/nri-logo.png";
 import AdmissionInquiryDialog from "./AdmissionInquiryDialog";
 import LoginDialog from "./auth/LoginDialog";
+import SignupDialog from "./auth/SignupDialog";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [inquiryDialogOpen, setInquiryDialogOpen] = useState(false);
   const [loginDialogOpen, setLoginDialogOpen] = useState(false);
+  const [signupDialogOpen, setSignupDialogOpen] = useState(false);
 
   const navItems = [
     { name: "Home", href: "#home" },
@@ -55,6 +57,14 @@ const Header = () => {
             >
               <LogIn className="w-4 h-4" />
               Login
+            </Button>
+            <Button 
+              variant="secondary"
+              onClick={() => setSignupDialogOpen(true)}
+              className="gap-2"
+            >
+              <UserPlus className="w-4 h-4" />
+              Sign Up
             </Button>
             <Button 
               className="bg-gradient-secondary hover:opacity-90"
@@ -104,6 +114,17 @@ const Header = () => {
                 Login
               </Button>
               <Button 
+                variant="secondary"
+                className="w-full gap-2"
+                onClick={() => {
+                  setSignupDialogOpen(true);
+                  setIsMenuOpen(false);
+                }}
+              >
+                <UserPlus className="w-4 h-4" />
+                Sign Up
+              </Button>
+              <Button 
                 className="w-full bg-gradient-secondary hover:opacity-90"
                 onClick={() => {
                   setInquiryDialogOpen(true);
@@ -124,6 +145,10 @@ const Header = () => {
       <LoginDialog 
         open={loginDialogOpen} 
         onOpenChange={setLoginDialogOpen}
+      />
+      <SignupDialog 
+        open={signupDialogOpen} 
+        onOpenChange={setSignupDialogOpen}
       />
     </header>
   );
