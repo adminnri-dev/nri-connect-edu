@@ -94,7 +94,10 @@ export default function AdminDashboard() {
                 <CardDescription>Common administrative tasks</CardDescription>
               </CardHeader>
               <CardContent className="space-y-2">
-                <Button className="w-full justify-start">Create New User</Button>
+                <Button className="w-full justify-start" onClick={() => window.location.href = '/sample-data-guide'}>
+                  View Sample Data Guide
+                </Button>
+                <Button className="w-full justify-start" variant="outline">Create New User</Button>
                 <Button className="w-full justify-start" variant="outline">Manage Classes</Button>
                 <Button className="w-full justify-start" variant="outline">Post Announcement</Button>
               </CardContent>
