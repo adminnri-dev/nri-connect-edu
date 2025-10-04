@@ -2,9 +2,12 @@ import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { LogOut, Users, BookOpen, GraduationCap, Bell } from 'lucide-react';
+import { LogOut, Users, BookOpen, GraduationCap, Bell, Calendar, FileText } from 'lucide-react';
 import UserManagement from '@/components/admin/UserManagement';
 import ClassManagement from '@/components/admin/ClassManagement';
+import AttendanceManagement from '@/components/admin/AttendanceManagement';
+import AnnouncementManagement from '@/components/admin/AnnouncementManagement';
+import GradeManagement from '@/components/admin/GradeManagement';
 
 export default function AdminDashboard() {
   const { user, signOut } = useAuth();
@@ -28,12 +31,14 @@ export default function AdminDashboard() {
         </div>
 
         <Tabs defaultValue="overview" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-5 lg:w-auto">
+          <TabsList className="grid w-full grid-cols-7 lg:w-auto">
             <TabsTrigger value="overview">Overview</TabsTrigger>
             <TabsTrigger value="users">Users</TabsTrigger>
             <TabsTrigger value="classes">Classes</TabsTrigger>
-            <TabsTrigger value="courses">Courses</TabsTrigger>
+            <TabsTrigger value="attendance">Attendance</TabsTrigger>
+            <TabsTrigger value="grades">Grades</TabsTrigger>
             <TabsTrigger value="announcements">Announcements</TabsTrigger>
+            <TabsTrigger value="courses">Courses</TabsTrigger>
           </TabsList>
 
           <TabsContent value="overview" className="space-y-6">
@@ -104,19 +109,22 @@ export default function AdminDashboard() {
             <ClassManagement />
           </TabsContent>
 
+          <TabsContent value="attendance">
+            <AttendanceManagement />
+          </TabsContent>
+
+          <TabsContent value="grades">
+            <GradeManagement />
+          </TabsContent>
+
+          <TabsContent value="announcements">
+            <AnnouncementManagement />
+          </TabsContent>
+
           <TabsContent value="courses">
             <Card>
               <CardHeader>
                 <CardTitle>Course Management</CardTitle>
-                <CardDescription>Coming soon</CardDescription>
-              </CardHeader>
-            </Card>
-          </TabsContent>
-
-          <TabsContent value="announcements">
-            <Card>
-              <CardHeader>
-                <CardTitle>Announcements</CardTitle>
                 <CardDescription>Coming soon</CardDescription>
               </CardHeader>
             </Card>
