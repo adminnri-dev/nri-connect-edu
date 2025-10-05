@@ -16,6 +16,8 @@ import TimetableManagement from '@/components/admin/TimetableManagement';
 import StudentProfileManagement from '@/components/admin/StudentProfileManagement';
 import FeeManagement from '@/components/admin/FeeManagement';
 import LibraryManagement from '@/components/admin/LibraryManagement';
+import CourseManagement from '@/components/admin/CourseManagement';
+import AnalyticsReports from '@/components/admin/AnalyticsReports';
 import { ProfileSettings } from '@/components/settings/ProfileSettings';
 import AnnouncementsList from '@/components/AnnouncementsList';
 
@@ -77,8 +79,9 @@ export default function AdminDashboard() {
         </div>
 
         <Tabs defaultValue="overview" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-5 lg:grid-cols-13 lg:w-auto">
+          <TabsList className="grid w-full grid-cols-5 lg:grid-cols-14 lg:w-auto">
             <TabsTrigger value="overview">Overview</TabsTrigger>
+            <TabsTrigger value="analytics">Analytics</TabsTrigger>
             <TabsTrigger value="users">Users</TabsTrigger>
             <TabsTrigger value="students">Students</TabsTrigger>
             <TabsTrigger value="classes">Classes</TabsTrigger>
@@ -157,6 +160,10 @@ export default function AdminDashboard() {
             </Card>
           </TabsContent>
 
+          <TabsContent value="analytics">
+            <AnalyticsReports />
+          </TabsContent>
+
           <TabsContent value="users">
             <UserManagement />
           </TabsContent>
@@ -202,12 +209,7 @@ export default function AdminDashboard() {
           </TabsContent>
 
           <TabsContent value="courses">
-            <Card>
-              <CardHeader>
-                <CardTitle>Course Management</CardTitle>
-                <CardDescription>Coming soon</CardDescription>
-              </CardHeader>
-            </Card>
+            <CourseManagement />
           </TabsContent>
 
           <TabsContent value="settings">

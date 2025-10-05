@@ -10,6 +10,7 @@ import { ChildGrades } from '@/components/parent/ChildGrades';
 import { ChildAttendance } from '@/components/parent/ChildAttendance';
 import { ChildFees } from '@/components/parent/ChildFees';
 import { ChildReportCards } from '@/components/parent/ChildReportCards';
+import { ParentDashboardStats } from '@/components/parent/ParentDashboardStats';
 import { ProfileSettings } from '@/components/settings/ProfileSettings';
 import AnnouncementsList from '@/components/AnnouncementsList';
 
@@ -144,6 +145,8 @@ export default function ParentDashboard() {
         <div className="mb-8">
           <AnnouncementsList userRole="parent" />
         </div>
+
+        <ParentDashboardStats />
 
         {selectedChildData && (
           <Tabs defaultValue="overview" className="space-y-6">
