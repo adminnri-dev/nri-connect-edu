@@ -14,6 +14,7 @@ import { ParentDashboardStats } from '@/components/parent/ParentDashboardStats';
 import { MessagesList } from '@/components/messaging/MessagesList';
 import { ProfileSettings } from '@/components/settings/ProfileSettings';
 import AnnouncementsList from '@/components/AnnouncementsList';
+import { NotificationBell } from '@/components/NotificationBell';
 
 export default function ParentDashboard() {
   const { user, signOut } = useAuth();
@@ -80,10 +81,13 @@ export default function ParentDashboard() {
         <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
           <div className="container mx-auto px-4 py-4 flex items-center justify-between">
             <h1 className="text-2xl font-bold">Parent Portal</h1>
-            <Button variant="ghost" onClick={signOut} className="gap-2">
-              <LogOut className="h-4 w-4" />
-              Sign Out
-            </Button>
+            <div className="flex items-center gap-2">
+              <NotificationBell />
+              <Button variant="ghost" onClick={signOut} className="gap-2">
+                <LogOut className="h-4 w-4" />
+                Sign Out
+              </Button>
+            </div>
           </div>
         </header>
         <main className="container mx-auto px-4 py-8">
@@ -105,10 +109,13 @@ export default function ParentDashboard() {
       <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <h1 className="text-2xl font-bold">Parent Portal</h1>
-          <Button variant="ghost" onClick={signOut} className="gap-2">
-            <LogOut className="h-4 w-4" />
-            Sign Out
-          </Button>
+          <div className="flex items-center gap-2">
+            <NotificationBell />
+            <Button variant="ghost" onClick={signOut} className="gap-2">
+              <LogOut className="h-4 w-4" />
+              Sign Out
+            </Button>
+          </div>
         </div>
       </header>
 
@@ -151,7 +158,7 @@ export default function ParentDashboard() {
 
         {selectedChildData && (
           <Tabs defaultValue="overview" className="space-y-6">
-            <TabsList className="grid w-full grid-cols-2 lg:grid-cols-6">
+            <TabsList className="grid w-full grid-cols-2 lg:grid-cols-7">
               <TabsTrigger value="overview">Overview</TabsTrigger>
               <TabsTrigger value="grades">Grades</TabsTrigger>
               <TabsTrigger value="attendance">Attendance</TabsTrigger>

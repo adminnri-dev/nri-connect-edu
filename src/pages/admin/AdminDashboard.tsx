@@ -21,6 +21,7 @@ import AnalyticsReports from '@/components/admin/AnalyticsReports';
 import { MessagesList } from '@/components/messaging/MessagesList';
 import { ProfileSettings } from '@/components/settings/ProfileSettings';
 import AnnouncementsList from '@/components/AnnouncementsList';
+import { NotificationBell } from '@/components/NotificationBell';
 
 export default function AdminDashboard() {
   const { user, signOut } = useAuth();
@@ -62,10 +63,13 @@ export default function AdminDashboard() {
       <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <h1 className="text-2xl font-bold">Admin Dashboard</h1>
-          <Button variant="ghost" onClick={signOut} className="gap-2">
-            <LogOut className="h-4 w-4" />
-            Sign Out
-          </Button>
+          <div className="flex items-center gap-2">
+            <NotificationBell />
+            <Button variant="ghost" onClick={signOut} className="gap-2">
+              <LogOut className="h-4 w-4" />
+              Sign Out
+            </Button>
+          </div>
         </div>
       </header>
 
