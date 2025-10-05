@@ -6,8 +6,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
-import { LogOut, FileText, Calendar, Bell, CheckCircle, XCircle, Clock } from 'lucide-react';
+import { LogOut, FileText, Calendar, Bell, CheckCircle, XCircle, Clock, BookOpen } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { LibraryView } from '@/components/student/LibraryView';
 import AnnouncementsList from '@/components/AnnouncementsList';
 
 interface Grade {
@@ -203,6 +204,7 @@ export default function StudentDashboard() {
               <TabsList>
                 <TabsTrigger value="grades">Grades</TabsTrigger>
                 <TabsTrigger value="attendance">Attendance</TabsTrigger>
+                <TabsTrigger value="library">Library</TabsTrigger>
                 <TabsTrigger value="announcements">Announcements</TabsTrigger>
               </TabsList>
 
@@ -289,6 +291,10 @@ export default function StudentDashboard() {
                     </Table>
                   </CardContent>
                 </Card>
+              </TabsContent>
+
+              <TabsContent value="library">
+                <LibraryView />
               </TabsContent>
 
               <TabsContent value="announcements">

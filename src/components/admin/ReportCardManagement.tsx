@@ -8,7 +8,8 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { useToast } from '@/hooks/use-toast';
-import { Plus, Eye } from 'lucide-react';
+import { Plus, Eye, Printer } from 'lucide-react';
+import { PrintableReportCard } from '@/components/reports/PrintableReportCard';
 
 interface ReportCard {
   id: string;

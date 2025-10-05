@@ -130,6 +130,110 @@ export type Database = {
         }
         Relationships: []
       }
+      book_borrowings: {
+        Row: {
+          book_id: string
+          created_at: string
+          due_date: string
+          fine_amount: number | null
+          id: string
+          issue_date: string
+          issued_by: string
+          notes: string | null
+          return_date: string | null
+          returned_to: string | null
+          status: string
+          student_id: string
+          updated_at: string
+        }
+        Insert: {
+          book_id: string
+          created_at?: string
+          due_date: string
+          fine_amount?: number | null
+          id?: string
+          issue_date?: string
+          issued_by: string
+          notes?: string | null
+          return_date?: string | null
+          returned_to?: string | null
+          status?: string
+          student_id: string
+          updated_at?: string
+        }
+        Update: {
+          book_id?: string
+          created_at?: string
+          due_date?: string
+          fine_amount?: number | null
+          id?: string
+          issue_date?: string
+          issued_by?: string
+          notes?: string | null
+          return_date?: string | null
+          returned_to?: string | null
+          status?: string
+          student_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "book_borrowings_book_id_fkey"
+            columns: ["book_id"]
+            isOneToOne: false
+            referencedRelation: "books"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      books: {
+        Row: {
+          author: string
+          available_copies: number
+          category: Database["public"]["Enums"]["book_category"]
+          cover_image_url: string | null
+          created_at: string
+          description: string | null
+          id: string
+          isbn: string | null
+          published_year: number | null
+          publisher: string | null
+          title: string
+          total_copies: number
+          updated_at: string
+        }
+        Insert: {
+          author: string
+          available_copies?: number
+          category: Database["public"]["Enums"]["book_category"]
+          cover_image_url?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          isbn?: string | null
+          published_year?: number | null
+          publisher?: string | null
+          title: string
+          total_copies?: number
+          updated_at?: string
+        }
+        Update: {
+          author?: string
+          available_copies?: number
+          category?: Database["public"]["Enums"]["book_category"]
+          cover_image_url?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          isbn?: string | null
+          published_year?: number | null
+          publisher?: string | null
+          title?: string
+          total_copies?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       classes: {
         Row: {
           academic_year: string
@@ -639,6 +743,16 @@ export type Database = {
     }
     Enums: {
       app_role: "student" | "admin" | "teacher"
+      book_category:
+        | "fiction"
+        | "non_fiction"
+        | "science"
+        | "mathematics"
+        | "history"
+        | "literature"
+        | "reference"
+        | "magazine"
+        | "other"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -767,6 +881,17 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["student", "admin", "teacher"],
+      book_category: [
+        "fiction",
+        "non_fiction",
+        "science",
+        "mathematics",
+        "history",
+        "literature",
+        "reference",
+        "magazine",
+        "other",
+      ],
     },
   },
 } as const

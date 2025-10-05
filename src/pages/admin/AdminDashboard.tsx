@@ -13,6 +13,7 @@ import ReportCardManagement from '@/components/admin/ReportCardManagement';
 import TimetableManagement from '@/components/admin/TimetableManagement';
 import StudentProfileManagement from '@/components/admin/StudentProfileManagement';
 import FeeManagement from '@/components/admin/FeeManagement';
+import LibraryManagement from '@/components/admin/LibraryManagement';
 import AnnouncementsList from '@/components/AnnouncementsList';
 
 export default function AdminDashboard() {
@@ -41,7 +42,7 @@ export default function AdminDashboard() {
         </div>
 
         <Tabs defaultValue="overview" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-5 lg:grid-cols-12 lg:w-auto">
+          <TabsList className="grid w-full grid-cols-5 lg:grid-cols-13 lg:w-auto">
             <TabsTrigger value="overview">Overview</TabsTrigger>
             <TabsTrigger value="users">Users</TabsTrigger>
             <TabsTrigger value="students">Students</TabsTrigger>
@@ -53,6 +54,7 @@ export default function AdminDashboard() {
             <TabsTrigger value="timetable">Timetable</TabsTrigger>
             <TabsTrigger value="announcements">Announcements</TabsTrigger>
             <TabsTrigger value="fees">Fees</TabsTrigger>
+            <TabsTrigger value="library">Library</TabsTrigger>
             <TabsTrigger value="courses">Courses</TabsTrigger>
           </TabsList>
 
@@ -157,6 +159,10 @@ export default function AdminDashboard() {
 
           <TabsContent value="fees">
             <FeeManagement />
+          </TabsContent>
+
+          <TabsContent value="library">
+            <LibraryManagement />
           </TabsContent>
 
           <TabsContent value="courses">
