@@ -1,375 +1,233 @@
-import { useEffect, useState } from 'react';
-import { supabase } from '@/integrations/supabase/client';
+import { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { supabase } from '@/integrations/supabase/client';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { useToast } from '@/hooks/use-toast';
-import { BookOpen, Calendar, FileText, GraduationCap } from 'lucide-react';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { LogOut, Users, GraduationCap, DollarSign, FileText, Calendar } from 'lucide-react';
+import { ChildGrades } from '@/components/parent/ChildGrades';
+import { ChildAttendance } from '@/components/parent/ChildAttendance';
+import { ChildFees } from '@/components/parent/ChildFees';
+import { ChildReportCards } from '@/components/parent/ChildReportCards';
 import AnnouncementsList from '@/components/AnnouncementsList';
 
-interface LinkedStudent {
-  id: string;
-  user_id: string;
-  full_name: string;
-  relationship: string;
-}
-
-interface Attendance {
-  id: string;
-  date: string;
-  status: string;
-  notes: string | null;
-}
-
-interface Grade {
-  id: string;
-  assignment_name: string;
-  assignment_type: string;
-  score: number;
-  max_score: number;
-  date: string;
-}
-
-interface ReportCard {
-  id: string;
-  academic_year: string;
-  term: string;
-  overall_grade: string | null;
-  overall_percentage: number | null;
-  teacher_comments: string | null;
-  generated_at: string;
-}
-
 export default function ParentDashboard() {
-  const { user } = useAuth();
-  const [linkedStudents, setLinkedStudents] = useState<LinkedStudent[]>([]);
-  const [selectedStudent, setSelectedStudent] = useState<string | null>(null);
-  const [attendance, setAttendance] = useState<Attendance[]>([]);
-  const [grades, setGrades] = useState<Grade[]>([]);
-  const [reportCards, setReportCards] = useState<ReportCard[]>([]);
+  const { user, signOut } = useAuth();
+  const [children, setChildren] = useState<any[]>([]);
+  const [selectedChild, setSelectedChild] = useState<string>('');
   const [loading, setLoading] = useState(true);
-  const { toast } = useToast();
 
   useEffect(() => {
-    if (user) {
-      fetchLinkedStudents();
-    }
+    fetchChildren();
   }, [user]);
 
-  useEffect(() => {
-    if (selectedStudent) {
-      fetchStudentData(selectedStudent);
-    }
-  }, [selectedStudent]);
+  const fetchChildren = async () => {
+    if (!user) return;
 
-  const fetchLinkedStudents = async () => {
     try {
-      const { data: links, error: linksError } = await supabase
+      const { data, error } = await supabase
         .from('parent_student_links')
         .select('student_user_id, relationship')
-        .eq('parent_user_id', user?.id);
+        .eq('parent_user_id', user.id);
 
-      if (linksError) throw linksError;
+      if (error) throw error;
 
-      if (links && links.length > 0) {
-        const studentIds = links.map(link => link.student_user_id);
+      if (data && data.length > 0) {
+        const studentIds = data.map(link => link.student_user_id);
         const { data: profiles, error: profilesError } = await supabase
           .from('profiles')
-          .select('user_id, full_name')
+          .select('user_id, full_name, email')
           .in('user_id', studentIds);
 
         if (profilesError) throw profilesError;
 
-        const enrichedStudents = (profiles || []).map(profile => ({
-          id: profile.user_id,
+        const childrenData = (profiles || []).map(profile => ({
           user_id: profile.user_id,
           full_name: profile.full_name,
-          relationship: links.find(l => l.student_user_id === profile.user_id)?.relationship || '',
+          email: profile.email,
+          relationship: data.find(l => l.student_user_id === profile.user_id)?.relationship || ''
         }));
 
-        setLinkedStudents(enrichedStudents);
-        if (enrichedStudents.length > 0) {
-          setSelectedStudent(enrichedStudents[0].user_id);
+        setChildren(childrenData);
+        if (childrenData.length > 0) {
+          setSelectedChild(childrenData[0].user_id);
         }
       }
     } catch (error: any) {
-      toast({
-        title: 'Error',
-        description: error.message,
-        variant: 'destructive',
-      });
+      console.error('Error fetching children:', error);
     } finally {
       setLoading(false);
     }
   };
 
-  const fetchStudentData = async (studentId: string) => {
-    try {
-      // Fetch attendance
-      const { data: attendanceData, error: attendanceError } = await supabase
-        .from('attendance')
-        .select('*')
-        .eq('student_id', studentId)
-        .order('date', { ascending: false })
-        .limit(10);
-
-      if (attendanceError) throw attendanceError;
-      setAttendance(attendanceData || []);
-
-      // Fetch grades
-      const { data: gradesData, error: gradesError } = await supabase
-        .from('grades')
-        .select('*')
-        .eq('student_id', studentId)
-        .order('date', { ascending: false })
-        .limit(10);
-
-      if (gradesError) throw gradesError;
-      setGrades(gradesData || []);
-
-      // Fetch report cards
-      const { data: reportCardsData, error: reportCardsError } = await supabase
-        .from('report_cards')
-        .select('*')
-        .eq('student_id', studentId)
-        .order('generated_at', { ascending: false });
-
-      if (reportCardsError) throw reportCardsError;
-      setReportCards(reportCardsData || []);
-    } catch (error: any) {
-      toast({
-        title: 'Error',
-        description: error.message,
-        variant: 'destructive',
-      });
-    }
-  };
+  const selectedChildData = children.find(child => child.user_id === selectedChild);
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+      <div className="min-h-screen bg-gradient-to-br from-background to-accent/20 flex items-center justify-center">
+        <p>Loading...</p>
       </div>
     );
   }
 
-  if (linkedStudents.length === 0) {
+  if (children.length === 0) {
     return (
-      <div className="min-h-screen p-8">
-        <Card>
-          <CardHeader>
-            <CardTitle>Parent Portal</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-muted-foreground">
-              No students linked to your account. Please contact the school administration to link your child's account.
-            </p>
-          </CardContent>
-        </Card>
-      </div>
-    );
-  }
-
-  const currentStudent = linkedStudents.find(s => s.user_id === selectedStudent);
-
-  return (
-    <div className="min-h-screen p-8">
-      <div className="max-w-7xl mx-auto space-y-8">
-        <div>
-          <h1 className="text-3xl font-bold mb-2">Parent Portal</h1>
-          <p className="text-muted-foreground">View your child's academic information</p>
-        </div>
-
-        <AnnouncementsList userRole="parent" />
-
-        {linkedStudents.length > 1 && (
+      <div className="min-h-screen bg-gradient-to-br from-background to-accent/20">
+        <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+          <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+            <h1 className="text-2xl font-bold">Parent Portal</h1>
+            <Button variant="ghost" onClick={signOut} className="gap-2">
+              <LogOut className="h-4 w-4" />
+              Sign Out
+            </Button>
+          </div>
+        </header>
+        <main className="container mx-auto px-4 py-8">
           <Card>
             <CardHeader>
-              <CardTitle>Select Student</CardTitle>
+              <CardTitle>No Children Linked</CardTitle>
+              <CardDescription>
+                Please contact the school administrator to link your children to your account.
+              </CardDescription>
+            </CardHeader>
+          </Card>
+        </main>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-background to-accent/20">
+      <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+          <h1 className="text-2xl font-bold">Parent Portal</h1>
+          <Button variant="ghost" onClick={signOut} className="gap-2">
+            <LogOut className="h-4 w-4" />
+            Sign Out
+          </Button>
+        </div>
+      </header>
+
+      <main className="container mx-auto px-4 py-8">
+        <div className="mb-6">
+          <h2 className="text-3xl font-bold mb-2">Welcome!</h2>
+          <p className="text-muted-foreground">{user?.email}</p>
+        </div>
+
+        <div className="mb-6">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Users className="h-5 w-5" />
+                Select Child
+              </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="flex gap-2">
-                {linkedStudents.map(student => (
-                  <button
-                    key={student.user_id}
-                    onClick={() => setSelectedStudent(student.user_id)}
-                    className={`px-4 py-2 rounded-lg ${
-                      selectedStudent === student.user_id
-                        ? 'bg-primary text-primary-foreground'
-                        : 'bg-secondary text-secondary-foreground'
-                    }`}
-                  >
-                    {student.full_name}
-                  </button>
-                ))}
-              </div>
+              <Select value={selectedChild} onValueChange={setSelectedChild}>
+                <SelectTrigger className="w-full">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {children.map((child) => (
+                    <SelectItem key={child.user_id} value={child.user_id}>
+                      {child.full_name} ({child.relationship})
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </CardContent>
           </Card>
+        </div>
+
+        <div className="mb-8">
+          <AnnouncementsList userRole="parent" />
+        </div>
+
+        {selectedChildData && (
+          <Tabs defaultValue="overview" className="space-y-6">
+            <TabsList className="grid w-full grid-cols-2 lg:grid-cols-5">
+              <TabsTrigger value="overview">Overview</TabsTrigger>
+              <TabsTrigger value="grades">Grades</TabsTrigger>
+              <TabsTrigger value="attendance">Attendance</TabsTrigger>
+              <TabsTrigger value="fees">Fees</TabsTrigger>
+              <TabsTrigger value="reports">Report Cards</TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="overview" className="space-y-6">
+              <div className="grid gap-6 md:grid-cols-3">
+                <Card>
+                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <CardTitle className="text-sm font-medium">Student</CardTitle>
+                    <GraduationCap className="h-4 w-4 text-muted-foreground" />
+                  </CardHeader>
+                  <CardContent>
+                    <div className="text-xl font-bold">{selectedChildData.full_name}</div>
+                    <p className="text-xs text-muted-foreground">{selectedChildData.email}</p>
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <CardTitle className="text-sm font-medium">Relationship</CardTitle>
+                    <Users className="h-4 w-4 text-muted-foreground" />
+                  </CardHeader>
+                  <CardContent>
+                    <div className="text-xl font-bold capitalize">{selectedChildData.relationship}</div>
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <CardTitle className="text-sm font-medium">Quick Actions</CardTitle>
+                    <FileText className="h-4 w-4 text-muted-foreground" />
+                  </CardHeader>
+                  <CardContent className="space-y-2">
+                    <Button variant="outline" size="sm" className="w-full">
+                      Download Report Card
+                    </Button>
+                  </CardContent>
+                </Card>
+              </div>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle>About This Portal</CardTitle>
+                  <CardDescription>Access your child's academic information</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-2">
+                  <p className="text-sm">
+                    Welcome to the Parent Portal! Here you can:
+                  </p>
+                  <ul className="list-disc list-inside space-y-1 text-sm text-muted-foreground ml-4">
+                    <li>View your child's grades and assignments</li>
+                    <li>Check attendance records</li>
+                    <li>Monitor fee payments and dues</li>
+                    <li>Download report cards</li>
+                    <li>View school announcements</li>
+                  </ul>
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="grades">
+              <ChildGrades studentId={selectedChild} />
+            </TabsContent>
+
+            <TabsContent value="attendance">
+              <ChildAttendance studentId={selectedChild} />
+            </TabsContent>
+
+            <TabsContent value="fees">
+              <ChildFees studentId={selectedChild} />
+            </TabsContent>
+
+            <TabsContent value="reports">
+              <ChildReportCards studentId={selectedChild} />
+            </TabsContent>
+          </Tabs>
         )}
-
-        {currentStudent && (
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Student</CardTitle>
-                <GraduationCap className="h-4 w-4 text-muted-foreground" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">{currentStudent.full_name}</div>
-                <p className="text-xs text-muted-foreground">{currentStudent.relationship}</p>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Report Cards</CardTitle>
-                <FileText className="h-4 w-4 text-muted-foreground" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">{reportCards.length}</div>
-                <p className="text-xs text-muted-foreground">Available</p>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Recent Grades</CardTitle>
-                <BookOpen className="h-4 w-4 text-muted-foreground" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">{grades.length}</div>
-                <p className="text-xs text-muted-foreground">Assignments</p>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Attendance</CardTitle>
-                <Calendar className="h-4 w-4 text-muted-foreground" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">
-                  {attendance.filter(a => a.status === 'present').length}/{attendance.length}
-                </div>
-                <p className="text-xs text-muted-foreground">Present</p>
-              </CardContent>
-            </Card>
-          </div>
-        )}
-
-        <Tabs defaultValue="grades" className="space-y-4">
-          <TabsList>
-            <TabsTrigger value="grades">Grades</TabsTrigger>
-            <TabsTrigger value="attendance">Attendance</TabsTrigger>
-            <TabsTrigger value="reports">Report Cards</TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="grades">
-            <Card>
-              <CardHeader>
-                <CardTitle>Recent Grades</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Assignment</TableHead>
-                      <TableHead>Type</TableHead>
-                      <TableHead>Score</TableHead>
-                      <TableHead>Percentage</TableHead>
-                      <TableHead>Date</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {grades.map((grade) => (
-                      <TableRow key={grade.id}>
-                        <TableCell>{grade.assignment_name}</TableCell>
-                        <TableCell>{grade.assignment_type}</TableCell>
-                        <TableCell>
-                          {grade.score}/{grade.max_score}
-                        </TableCell>
-                        <TableCell>
-                          {((grade.score / grade.max_score) * 100).toFixed(1)}%
-                        </TableCell>
-                        <TableCell>{new Date(grade.date).toLocaleDateString()}</TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          <TabsContent value="attendance">
-            <Card>
-              <CardHeader>
-                <CardTitle>Recent Attendance</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Date</TableHead>
-                      <TableHead>Status</TableHead>
-                      <TableHead>Notes</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {attendance.map((record) => (
-                      <TableRow key={record.id}>
-                        <TableCell>{new Date(record.date).toLocaleDateString()}</TableCell>
-                        <TableCell>
-                          <span className={`px-2 py-1 rounded text-xs ${
-                            record.status === 'present' ? 'bg-green-100 text-green-800' :
-                            record.status === 'absent' ? 'bg-red-100 text-red-800' :
-                            'bg-yellow-100 text-yellow-800'
-                          }`}>
-                            {record.status}
-                          </span>
-                        </TableCell>
-                        <TableCell>{record.notes || '-'}</TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          <TabsContent value="reports">
-            <Card>
-              <CardHeader>
-                <CardTitle>Report Cards</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Academic Year</TableHead>
-                      <TableHead>Term</TableHead>
-                      <TableHead>Grade</TableHead>
-                      <TableHead>Percentage</TableHead>
-                      <TableHead>Generated</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {reportCards.map((card) => (
-                      <TableRow key={card.id}>
-                        <TableCell>{card.academic_year}</TableCell>
-                        <TableCell>{card.term}</TableCell>
-                        <TableCell>{card.overall_grade || '-'}</TableCell>
-                        <TableCell>{card.overall_percentage ? `${card.overall_percentage}%` : '-'}</TableCell>
-                        <TableCell>{new Date(card.generated_at).toLocaleDateString()}</TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </CardContent>
-            </Card>
-          </TabsContent>
-        </Tabs>
-      </div>
+      </main>
     </div>
   );
 }
