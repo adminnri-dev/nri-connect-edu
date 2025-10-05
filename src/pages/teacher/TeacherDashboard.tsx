@@ -9,6 +9,7 @@ import { useToast } from '@/hooks/use-toast';
 import AttendanceManagement from '@/components/admin/AttendanceManagement';
 import GradeManagement from '@/components/admin/GradeManagement';
 import AnnouncementManagement from '@/components/admin/AnnouncementManagement';
+import { BulkAttendanceMarking } from '@/components/teacher/BulkAttendanceMarking';
 import AnnouncementsList from '@/components/AnnouncementsList';
 
 interface ClassData {
@@ -133,6 +134,7 @@ export default function TeacherDashboard() {
             <Tabs defaultValue="classes" className="space-y-6">
               <TabsList>
                 <TabsTrigger value="classes">My Classes</TabsTrigger>
+                <TabsTrigger value="bulk-attendance">Bulk Attendance</TabsTrigger>
                 <TabsTrigger value="attendance">Attendance</TabsTrigger>
                 <TabsTrigger value="grades">Grades</TabsTrigger>
                 <TabsTrigger value="announcements">Announcements</TabsTrigger>
@@ -168,6 +170,10 @@ export default function TeacherDashboard() {
                     )}
                   </CardContent>
                 </Card>
+              </TabsContent>
+
+              <TabsContent value="bulk-attendance">
+                <BulkAttendanceMarking />
               </TabsContent>
 
               <TabsContent value="attendance">
