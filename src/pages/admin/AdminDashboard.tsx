@@ -14,6 +14,7 @@ import EnrollmentManagement from '@/components/admin/EnrollmentManagement';
 import ReportCardManagement from '@/components/admin/ReportCardManagement';
 import TimetableManagement from '@/components/admin/TimetableManagement';
 import StudentProfileManagement from '@/components/admin/StudentProfileManagement';
+import { BulkStudentImport } from '@/components/admin/BulkStudentImport';
 import FeeManagement from '@/components/admin/FeeManagement';
 import LibraryManagement from '@/components/admin/LibraryManagement';
 import CourseManagement from '@/components/admin/CourseManagement';
@@ -185,7 +186,10 @@ export default function AdminDashboard() {
           </TabsContent>
 
           <TabsContent value="students">
-            <StudentProfileManagement />
+            <div className="space-y-6">
+              <BulkStudentImport />
+              <StudentProfileManagement />
+            </div>
           </TabsContent>
 
           <TabsContent value="classes">
