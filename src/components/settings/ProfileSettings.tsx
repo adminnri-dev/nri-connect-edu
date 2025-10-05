@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { User, Mail, Phone, Save } from 'lucide-react';
+import { AvatarUpload } from './AvatarUpload';
 
 export function ProfileSettings() {
   const { user } = useAuth();
@@ -86,7 +87,13 @@ export function ProfileSettings() {
           <CardDescription>Manage your account information</CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="space-y-6">
+            <div>
+              <Label className="mb-4 block">Profile Picture</Label>
+              <AvatarUpload />
+            </div>
+            
+            <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="full_name">Full Name</Label>
               <div className="relative">
@@ -137,6 +144,7 @@ export function ProfileSettings() {
               Save Changes
             </Button>
           </form>
+          </div>
         </CardContent>
       </Card>
     </div>

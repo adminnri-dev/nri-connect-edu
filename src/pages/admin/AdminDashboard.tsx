@@ -23,6 +23,8 @@ import { MessagesList } from '@/components/messaging/MessagesList';
 import { ProfileSettings } from '@/components/settings/ProfileSettings';
 import AnnouncementsList from '@/components/AnnouncementsList';
 import { NotificationBell } from '@/components/NotificationBell';
+import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
+import { AdminSidebar } from '@/components/admin/AdminSidebar';
 
 export default function AdminDashboard() {
   const { user, signOut } = useAuth();
@@ -60,21 +62,27 @@ export default function AdminDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background to-accent/20">
-      <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <h1 className="text-2xl font-bold">Admin Dashboard</h1>
-          <div className="flex items-center gap-2">
-            <NotificationBell />
-            <Button variant="ghost" onClick={signOut} className="gap-2">
-              <LogOut className="h-4 w-4" />
-              Sign Out
-            </Button>
-          </div>
-        </div>
-      </header>
+    <SidebarProvider>
+      <div className="min-h-screen flex w-full bg-gradient-to-br from-background to-accent/20">
+        <AdminSidebar />
+        <div className="flex-1 flex flex-col">
+          <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+            <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <SidebarTrigger />
+                <h1 className="text-2xl font-bold">Admin Dashboard</h1>
+              </div>
+              <div className="flex items-center gap-2">
+                <NotificationBell />
+                <Button variant="ghost" onClick={signOut} className="gap-2">
+                  <LogOut className="h-4 w-4" />
+                  Sign Out
+                </Button>
+              </div>
+            </div>
+          </header>
 
-      <main className="container mx-auto px-4 py-8">
+          <main className="container mx-auto px-4 py-8 flex-1">
         <div className="mb-6">
           <h2 className="text-3xl font-bold mb-2">Welcome, Admin!</h2>
           <p className="text-muted-foreground">{user?.email}</p>
@@ -233,6 +241,8 @@ export default function AdminDashboard() {
           </TabsContent>
         </Tabs>
       </main>
-    </div>
+        </div>
+      </div>
+    </SidebarProvider>
   );
 }
