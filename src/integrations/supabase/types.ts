@@ -198,6 +198,98 @@ export type Database = {
         }
         Relationships: []
       }
+      fee_payments: {
+        Row: {
+          amount: number
+          created_at: string
+          id: string
+          notes: string | null
+          payment_date: string
+          payment_method: string
+          payment_reference: string | null
+          receipt_number: string
+          received_by: string
+          student_fee_id: string
+          student_id: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          id?: string
+          notes?: string | null
+          payment_date?: string
+          payment_method: string
+          payment_reference?: string | null
+          receipt_number: string
+          received_by: string
+          student_fee_id: string
+          student_id: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          id?: string
+          notes?: string | null
+          payment_date?: string
+          payment_method?: string
+          payment_reference?: string | null
+          receipt_number?: string
+          received_by?: string
+          student_fee_id?: string
+          student_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fee_payments_student_fee_id_fkey"
+            columns: ["student_fee_id"]
+            isOneToOne: false
+            referencedRelation: "student_fees"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      fee_structures: {
+        Row: {
+          academic_year: string
+          amount: number
+          class: string
+          created_at: string
+          description: string | null
+          due_date: string
+          fee_type: string
+          frequency: string
+          id: string
+          section: string
+          updated_at: string
+        }
+        Insert: {
+          academic_year: string
+          amount: number
+          class: string
+          created_at?: string
+          description?: string | null
+          due_date: string
+          fee_type: string
+          frequency?: string
+          id?: string
+          section: string
+          updated_at?: string
+        }
+        Update: {
+          academic_year?: string
+          amount?: number
+          class?: string
+          created_at?: string
+          description?: string | null
+          due_date?: string
+          fee_type?: string
+          frequency?: string
+          id?: string
+          section?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       grades: {
         Row: {
           assignment_name: string
@@ -382,6 +474,50 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      student_fees: {
+        Row: {
+          amount_due: number
+          amount_paid: number
+          created_at: string
+          due_date: string
+          fee_structure_id: string
+          id: string
+          status: string
+          student_id: string
+          updated_at: string
+        }
+        Insert: {
+          amount_due: number
+          amount_paid?: number
+          created_at?: string
+          due_date: string
+          fee_structure_id: string
+          id?: string
+          status?: string
+          student_id: string
+          updated_at?: string
+        }
+        Update: {
+          amount_due?: number
+          amount_paid?: number
+          created_at?: string
+          due_date?: string
+          fee_structure_id?: string
+          id?: string
+          status?: string
+          student_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "student_fees_fee_structure_id_fkey"
+            columns: ["fee_structure_id"]
+            isOneToOne: false
+            referencedRelation: "fee_structures"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       student_profiles: {
         Row: {
