@@ -10,6 +10,7 @@ import AttendanceManagement from '@/components/admin/AttendanceManagement';
 import GradeManagement from '@/components/admin/GradeManagement';
 import AnnouncementManagement from '@/components/admin/AnnouncementManagement';
 import { BulkAttendanceMarking } from '@/components/teacher/BulkAttendanceMarking';
+import { TeacherTimetableView } from '@/components/teacher/TeacherTimetableView';
 import { ProfileSettings } from '@/components/settings/ProfileSettings';
 import AnnouncementsList from '@/components/AnnouncementsList';
 
@@ -138,9 +139,10 @@ export default function TeacherDashboard() {
                 <TabsTrigger value="bulk-attendance">Bulk Attendance</TabsTrigger>
                 <TabsTrigger value="attendance">Attendance</TabsTrigger>
                 <TabsTrigger value="grades">Grades</TabsTrigger>
-              <TabsTrigger value="announcements">Announcements</TabsTrigger>
-              <TabsTrigger value="settings">Settings</TabsTrigger>
-            </TabsList>
+                <TabsTrigger value="timetable">Timetable</TabsTrigger>
+                <TabsTrigger value="announcements">Announcements</TabsTrigger>
+                <TabsTrigger value="settings">Settings</TabsTrigger>
+              </TabsList>
 
               <TabsContent value="classes">
                 <Card>
@@ -184,6 +186,10 @@ export default function TeacherDashboard() {
 
               <TabsContent value="grades">
                 <GradeManagement />
+              </TabsContent>
+
+              <TabsContent value="timetable">
+                <TeacherTimetableView />
               </TabsContent>
 
               <TabsContent value="announcements">
