@@ -26,6 +26,7 @@ import AnnouncementsList from '@/components/AnnouncementsList';
 import { NotificationBell } from '@/components/NotificationBell';
 import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
 import { AdminSidebar } from '@/components/admin/AdminSidebar';
+import { LogoWatermark } from '@/components/LogoWatermark';
 
 export default function AdminDashboard() {
   const { user, signOut } = useAuth();
@@ -65,8 +66,9 @@ export default function AdminDashboard() {
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full bg-gradient-to-br from-background to-accent/20">
+        <LogoWatermark opacity={0.03} size="600px" />
         <AdminSidebar />
-        <div className="flex-1 flex flex-col">
+        <div className="flex-1 flex flex-col relative z-10">
           <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
             <div className="container mx-auto px-4 py-4 flex items-center justify-between">
               <div className="flex items-center gap-2">

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Award, Users, BookOpen } from "lucide-react";
 import heroImage from "@/assets/hero-school.jpg";
+import logo from "@/assets/nri-logo.png";
 import EnrollmentDialog from "./EnrollmentDialog";
 
 const Hero = () => {
@@ -17,6 +18,15 @@ const Hero = () => {
           className="w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-primary/95 to-primary/70"></div>
+        
+        {/* Logo Watermark */}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+          <img 
+            src={logo} 
+            alt="" 
+            className="w-[600px] h-[600px] object-contain opacity-10"
+          />
+        </div>
       </div>
 
       {/* Content */}
