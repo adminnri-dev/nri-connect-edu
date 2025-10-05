@@ -10,6 +10,7 @@ import { LogOut, FileText, Calendar, Bell, CheckCircle, XCircle, Clock, BookOpen
 import { useToast } from '@/hooks/use-toast';
 import { LibraryView } from '@/components/student/LibraryView';
 import { TimetableView } from '@/components/student/TimetableView';
+import { MessagesList } from '@/components/messaging/MessagesList';
 import { ProfileSettings } from '@/components/settings/ProfileSettings';
 import AnnouncementsList from '@/components/AnnouncementsList';
 
@@ -209,6 +210,7 @@ export default function StudentDashboard() {
                 <TabsTrigger value="timetable">Timetable</TabsTrigger>
                 <TabsTrigger value="library">Library</TabsTrigger>
                 <TabsTrigger value="announcements">Announcements</TabsTrigger>
+                <TabsTrigger value="messages">Messages</TabsTrigger>
                 <TabsTrigger value="settings">Settings</TabsTrigger>
               </TabsList>
 
@@ -329,6 +331,10 @@ export default function StudentDashboard() {
                     )}
                   </CardContent>
                 </Card>
+              </TabsContent>
+
+              <TabsContent value="messages">
+                <MessagesList />
               </TabsContent>
 
               <TabsContent value="settings">

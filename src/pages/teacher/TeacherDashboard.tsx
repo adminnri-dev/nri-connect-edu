@@ -11,6 +11,7 @@ import GradeManagement from '@/components/admin/GradeManagement';
 import AnnouncementManagement from '@/components/admin/AnnouncementManagement';
 import { BulkAttendanceMarking } from '@/components/teacher/BulkAttendanceMarking';
 import { TeacherTimetableView } from '@/components/teacher/TeacherTimetableView';
+import { MessagesList } from '@/components/messaging/MessagesList';
 import { ProfileSettings } from '@/components/settings/ProfileSettings';
 import AnnouncementsList from '@/components/AnnouncementsList';
 
@@ -141,6 +142,7 @@ export default function TeacherDashboard() {
                 <TabsTrigger value="grades">Grades</TabsTrigger>
                 <TabsTrigger value="timetable">Timetable</TabsTrigger>
                 <TabsTrigger value="announcements">Announcements</TabsTrigger>
+                <TabsTrigger value="messages">Messages</TabsTrigger>
                 <TabsTrigger value="settings">Settings</TabsTrigger>
               </TabsList>
 
@@ -194,6 +196,10 @@ export default function TeacherDashboard() {
 
               <TabsContent value="announcements">
                 <AnnouncementManagement />
+              </TabsContent>
+
+              <TabsContent value="messages">
+                <MessagesList />
               </TabsContent>
 
               <TabsContent value="settings">

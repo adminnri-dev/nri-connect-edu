@@ -18,6 +18,7 @@ import FeeManagement from '@/components/admin/FeeManagement';
 import LibraryManagement from '@/components/admin/LibraryManagement';
 import CourseManagement from '@/components/admin/CourseManagement';
 import AnalyticsReports from '@/components/admin/AnalyticsReports';
+import { MessagesList } from '@/components/messaging/MessagesList';
 import { ProfileSettings } from '@/components/settings/ProfileSettings';
 import AnnouncementsList from '@/components/AnnouncementsList';
 
@@ -79,7 +80,7 @@ export default function AdminDashboard() {
         </div>
 
         <Tabs defaultValue="overview" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-5 lg:grid-cols-14 lg:w-auto">
+          <TabsList className="grid w-full grid-cols-5 lg:grid-cols-15 lg:w-auto">
             <TabsTrigger value="overview">Overview</TabsTrigger>
             <TabsTrigger value="analytics">Analytics</TabsTrigger>
             <TabsTrigger value="users">Users</TabsTrigger>
@@ -94,6 +95,7 @@ export default function AdminDashboard() {
             <TabsTrigger value="fees">Fees</TabsTrigger>
             <TabsTrigger value="library">Library</TabsTrigger>
             <TabsTrigger value="courses">Courses</TabsTrigger>
+            <TabsTrigger value="messages">Messages</TabsTrigger>
             <TabsTrigger value="settings">Settings</TabsTrigger>
           </TabsList>
 
@@ -210,6 +212,10 @@ export default function AdminDashboard() {
 
           <TabsContent value="courses">
             <CourseManagement />
+          </TabsContent>
+
+          <TabsContent value="messages">
+            <MessagesList />
           </TabsContent>
 
           <TabsContent value="settings">

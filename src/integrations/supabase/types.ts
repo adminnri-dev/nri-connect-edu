@@ -447,6 +447,50 @@ export type Database = {
           },
         ]
       }
+      messages: {
+        Row: {
+          content: string
+          created_at: string
+          id: string
+          parent_message_id: string | null
+          read: boolean
+          recipient_id: string
+          sender_id: string
+          subject: string
+          updated_at: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          id?: string
+          parent_message_id?: string | null
+          read?: boolean
+          recipient_id: string
+          sender_id: string
+          subject: string
+          updated_at?: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: string
+          parent_message_id?: string | null
+          read?: boolean
+          recipient_id?: string
+          sender_id?: string
+          subject?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "messages_parent_message_id_fkey"
+            columns: ["parent_message_id"]
+            isOneToOne: false
+            referencedRelation: "messages"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       parent_student_links: {
         Row: {
           created_at: string
