@@ -15,6 +15,7 @@ import { MessagesList } from '@/components/messaging/MessagesList';
 import { ProfileSettings } from '@/components/settings/ProfileSettings';
 import AnnouncementsList from '@/components/AnnouncementsList';
 import { NotificationBell } from '@/components/NotificationBell';
+import { SchoolCalendar } from '@/components/SchoolCalendar';
 
 interface ClassData {
   id: string;
@@ -145,6 +146,7 @@ export default function TeacherDashboard() {
                 <TabsTrigger value="attendance">Attendance</TabsTrigger>
                 <TabsTrigger value="grades">Grades</TabsTrigger>
                 <TabsTrigger value="timetable">Timetable</TabsTrigger>
+                <TabsTrigger value="calendar">Calendar</TabsTrigger>
                 <TabsTrigger value="announcements">Announcements</TabsTrigger>
                 <TabsTrigger value="messages">Messages</TabsTrigger>
                 <TabsTrigger value="settings">Settings</TabsTrigger>
@@ -196,6 +198,10 @@ export default function TeacherDashboard() {
 
               <TabsContent value="timetable">
                 <TeacherTimetableView />
+              </TabsContent>
+
+              <TabsContent value="calendar">
+                <SchoolCalendar />
               </TabsContent>
 
               <TabsContent value="announcements">

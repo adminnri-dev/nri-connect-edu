@@ -15,6 +15,7 @@ import { MessagesList } from '@/components/messaging/MessagesList';
 import { ProfileSettings } from '@/components/settings/ProfileSettings';
 import AnnouncementsList from '@/components/AnnouncementsList';
 import { NotificationBell } from '@/components/NotificationBell';
+import { SchoolCalendar } from '@/components/SchoolCalendar';
 
 export default function ParentDashboard() {
   const { user, signOut } = useAuth();
@@ -158,12 +159,13 @@ export default function ParentDashboard() {
 
         {selectedChildData && (
           <Tabs defaultValue="overview" className="space-y-6">
-            <TabsList className="grid w-full grid-cols-2 lg:grid-cols-7">
+            <TabsList className="grid w-full grid-cols-2 lg:grid-cols-8">
               <TabsTrigger value="overview">Overview</TabsTrigger>
               <TabsTrigger value="grades">Grades</TabsTrigger>
               <TabsTrigger value="attendance">Attendance</TabsTrigger>
               <TabsTrigger value="fees">Fees</TabsTrigger>
               <TabsTrigger value="reports">Report Cards</TabsTrigger>
+              <TabsTrigger value="calendar">Calendar</TabsTrigger>
               <TabsTrigger value="messages">Messages</TabsTrigger>
               <TabsTrigger value="settings">Settings</TabsTrigger>
             </TabsList>
@@ -238,6 +240,10 @@ export default function ParentDashboard() {
 
             <TabsContent value="reports">
               <ChildReportCards studentId={selectedChild} />
+            </TabsContent>
+
+            <TabsContent value="calendar">
+              <SchoolCalendar />
             </TabsContent>
 
             <TabsContent value="messages">

@@ -14,6 +14,7 @@ import { MessagesList } from '@/components/messaging/MessagesList';
 import { ProfileSettings } from '@/components/settings/ProfileSettings';
 import AnnouncementsList from '@/components/AnnouncementsList';
 import { NotificationBell } from '@/components/NotificationBell';
+import { SchoolCalendar } from '@/components/SchoolCalendar';
 
 interface Grade {
   assignment_name: string;
@@ -213,6 +214,7 @@ export default function StudentDashboard() {
                 <TabsTrigger value="attendance">Attendance</TabsTrigger>
                 <TabsTrigger value="timetable">Timetable</TabsTrigger>
                 <TabsTrigger value="library">Library</TabsTrigger>
+                <TabsTrigger value="calendar">Calendar</TabsTrigger>
                 <TabsTrigger value="announcements">Announcements</TabsTrigger>
                 <TabsTrigger value="messages">Messages</TabsTrigger>
                 <TabsTrigger value="settings">Settings</TabsTrigger>
@@ -309,6 +311,10 @@ export default function StudentDashboard() {
 
               <TabsContent value="library">
                 <LibraryView />
+              </TabsContent>
+
+              <TabsContent value="calendar">
+                <SchoolCalendar />
               </TabsContent>
 
               <TabsContent value="announcements">

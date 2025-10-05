@@ -302,6 +302,51 @@ export type Database = {
         }
         Relationships: []
       }
+      events: {
+        Row: {
+          all_day: boolean
+          created_at: string
+          created_by: string
+          description: string | null
+          end_date: string
+          event_type: string
+          id: string
+          location: string | null
+          start_date: string
+          target_audience: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          all_day?: boolean
+          created_at?: string
+          created_by: string
+          description?: string | null
+          end_date: string
+          event_type?: string
+          id?: string
+          location?: string | null
+          start_date: string
+          target_audience?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          all_day?: boolean
+          created_at?: string
+          created_by?: string
+          description?: string | null
+          end_date?: string
+          event_type?: string
+          id?: string
+          location?: string | null
+          start_date?: string
+          target_audience?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       fee_payments: {
         Row: {
           amount: number
