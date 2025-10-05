@@ -2,8 +2,10 @@ import { useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Printer } from 'lucide-react';
+import { Printer, Download } from 'lucide-react';
 import { format } from 'date-fns';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 
 interface PrintableReportCardProps {
   reportCard: any;
@@ -136,6 +138,28 @@ export function PrintableReportCard({ reportCard, student, grades, attendance }:
     printWindow.document.close();
   };
 
+  const handleDownloadPDF = async () => {
+    if (!printRef.current) return;
+
+    try {
+      const canvas = await html2canvas(printRef.current, {
+        scale: 2,
+        useCORS: true,
+        logging: false
+      });
+
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+
+      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+      pdf.save(`ReportCard_${student.full_name}_${reportCard.term}_${reportCard.academic_year}.pdf`);
+    } catch (error) {
+      console.error('Error generating PDF:', error);
+    }
+  };
+
   const calculateGrade = (percentage: number) => {
     if (percentage >= 90) return 'A+';
     if (percentage >= 80) return 'A';
@@ -151,7 +175,11 @@ export function PrintableReportCard({ reportCard, student, grades, attendance }:
 
   return (
     <div>
-      <div className="flex justify-end mb-4 no-print">
+      <div className="flex justify-end gap-2 mb-4 no-print">
+        <Button onClick={handleDownloadPDF} variant="default">
+          <Download className="mr-2 h-4 w-4" />
+          Download PDF
+        </Button>
         <Button onClick={handlePrint} variant="outline">
           <Printer className="mr-2 h-4 w-4" />
           Print Report Card

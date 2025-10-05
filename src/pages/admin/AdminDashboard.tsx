@@ -1,4 +1,6 @@
 import { useAuth } from '@/contexts/AuthContext';
+import { useState, useEffect } from 'react';
+import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -14,10 +16,43 @@ import TimetableManagement from '@/components/admin/TimetableManagement';
 import StudentProfileManagement from '@/components/admin/StudentProfileManagement';
 import FeeManagement from '@/components/admin/FeeManagement';
 import LibraryManagement from '@/components/admin/LibraryManagement';
+import { ProfileSettings } from '@/components/settings/ProfileSettings';
 import AnnouncementsList from '@/components/AnnouncementsList';
 
 export default function AdminDashboard() {
   const { user, signOut } = useAuth();
+  const [stats, setStats] = useState({
+    totalStudents: 0,
+    totalTeachers: 0,
+    totalClasses: 0,
+    totalAnnouncements: 0
+  });
+
+  useEffect(() => {
+    fetchDashboardStats();
+  }, []);
+
+  const fetchDashboardStats = async () => {
+    try {
+      const [studentsRes, teachersRes, classesRes, announcementsRes] = await Promise.all([
+        supabase.from('user_roles').select('*', { count: 'exact', head: true }).eq('role', 'student'),
+        supabase.from('user_roles').select('*', { count: 'exact', head: true }).eq('role', 'teacher'),
+        supabase.from('classes').select('*', { count: 'exact', head: true }),
+        supabase.from('announcements').select('*', { count: 'exact', head: true })
+          .eq('published', true)
+          .gte('published_at', new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString())
+      ]);
+
+      setStats({
+        totalStudents: studentsRes.count || 0,
+        totalTeachers: teachersRes.count || 0,
+        totalClasses: classesRes.count || 0,
+        totalAnnouncements: announcementsRes.count || 0
+      });
+    } catch (error) {
+      console.error('Error fetching dashboard stats:', error);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background to-accent/20">
@@ -56,6 +91,7 @@ export default function AdminDashboard() {
             <TabsTrigger value="fees">Fees</TabsTrigger>
             <TabsTrigger value="library">Library</TabsTrigger>
             <TabsTrigger value="courses">Courses</TabsTrigger>
+            <TabsTrigger value="settings">Settings</TabsTrigger>
           </TabsList>
 
           <TabsContent value="overview" className="space-y-6">
@@ -66,7 +102,7 @@ export default function AdminDashboard() {
                   <GraduationCap className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">--</div>
+                  <div className="text-2xl font-bold">{stats.totalStudents}</div>
                   <p className="text-xs text-muted-foreground">Active student accounts</p>
                 </CardContent>
               </Card>
@@ -77,7 +113,7 @@ export default function AdminDashboard() {
                   <Users className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">--</div>
+                  <div className="text-2xl font-bold">{stats.totalTeachers}</div>
                   <p className="text-xs text-muted-foreground">Teaching staff</p>
                 </CardContent>
               </Card>
@@ -88,7 +124,7 @@ export default function AdminDashboard() {
                   <BookOpen className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">--</div>
+                  <div className="text-2xl font-bold">{stats.totalClasses}</div>
                   <p className="text-xs text-muted-foreground">Active classes</p>
                 </CardContent>
               </Card>
@@ -99,7 +135,7 @@ export default function AdminDashboard() {
                   <Bell className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">--</div>
+                  <div className="text-2xl font-bold">{stats.totalAnnouncements}</div>
                   <p className="text-xs text-muted-foreground">Published this month</p>
                 </CardContent>
               </Card>
@@ -172,6 +208,10 @@ export default function AdminDashboard() {
                 <CardDescription>Coming soon</CardDescription>
               </CardHeader>
             </Card>
+          </TabsContent>
+
+          <TabsContent value="settings">
+            <ProfileSettings />
           </TabsContent>
         </Tabs>
       </main>

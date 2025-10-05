@@ -10,6 +10,7 @@ import { ChildGrades } from '@/components/parent/ChildGrades';
 import { ChildAttendance } from '@/components/parent/ChildAttendance';
 import { ChildFees } from '@/components/parent/ChildFees';
 import { ChildReportCards } from '@/components/parent/ChildReportCards';
+import { ProfileSettings } from '@/components/settings/ProfileSettings';
 import AnnouncementsList from '@/components/AnnouncementsList';
 
 export default function ParentDashboard() {
@@ -152,6 +153,7 @@ export default function ParentDashboard() {
               <TabsTrigger value="attendance">Attendance</TabsTrigger>
               <TabsTrigger value="fees">Fees</TabsTrigger>
               <TabsTrigger value="reports">Report Cards</TabsTrigger>
+              <TabsTrigger value="settings">Settings</TabsTrigger>
             </TabsList>
 
             <TabsContent value="overview" className="space-y-6">
@@ -224,6 +226,10 @@ export default function ParentDashboard() {
 
             <TabsContent value="reports">
               <ChildReportCards studentId={selectedChild} />
+            </TabsContent>
+
+            <TabsContent value="settings">
+              <ProfileSettings />
             </TabsContent>
           </Tabs>
         )}

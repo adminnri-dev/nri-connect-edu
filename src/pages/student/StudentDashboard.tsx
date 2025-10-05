@@ -9,6 +9,7 @@ import { Badge } from '@/components/ui/badge';
 import { LogOut, FileText, Calendar, Bell, CheckCircle, XCircle, Clock, BookOpen } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { LibraryView } from '@/components/student/LibraryView';
+import { ProfileSettings } from '@/components/settings/ProfileSettings';
 import AnnouncementsList from '@/components/AnnouncementsList';
 
 interface Grade {
@@ -206,6 +207,7 @@ export default function StudentDashboard() {
                 <TabsTrigger value="attendance">Attendance</TabsTrigger>
                 <TabsTrigger value="library">Library</TabsTrigger>
                 <TabsTrigger value="announcements">Announcements</TabsTrigger>
+                <TabsTrigger value="settings">Settings</TabsTrigger>
               </TabsList>
 
               <TabsContent value="grades">
@@ -321,6 +323,10 @@ export default function StudentDashboard() {
                     )}
                   </CardContent>
                 </Card>
+              </TabsContent>
+
+              <TabsContent value="settings">
+                <ProfileSettings />
               </TabsContent>
             </Tabs>
           </>
