@@ -13,7 +13,7 @@ const Hero = () => {
       {/* Solid Orange and Beige Background */}
       <div className="absolute inset-0 z-0 bg-gradient-to-br from-orange-500 via-orange-400 to-amber-200">
         {/* Logo Watermark */}
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+        <div className="absolute inset-0 flex items-center justify-end pr-32 pointer-events-none">
           <img 
             src={logo} 
             alt="" 
@@ -62,14 +62,14 @@ const Hero = () => {
               <div className="flex justify-center mb-2">
                 <Users className="w-8 h-8 text-gray-900" />
               </div>
-              <p className="text-3xl font-bold text-gray-900">500+</p>
+              <p className="text-3xl font-bold text-gray-900">600+</p>
               <p className="text-sm text-gray-700 font-medium">Students</p>
             </div>
             <div className="text-center">
               <div className="flex justify-center mb-2">
                 <BookOpen className="w-8 h-8 text-gray-900" />
               </div>
-              <p className="text-3xl font-bold text-gray-900">50+</p>
+              <p className="text-3xl font-bold text-gray-900">30+</p>
               <p className="text-sm text-gray-700 font-medium">Teachers</p>
             </div>
           </div>
