@@ -25,16 +25,16 @@ const Hero = () => {
       {/* Content */}
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-3xl animate-fade-in">
-          <div className="inline-block mb-4 px-4 py-2 bg-secondary/20 backdrop-blur-sm rounded-full border border-secondary/30">
-            <p className="text-primary-foreground text-sm font-medium">SSC Board Affiliated School</p>
+          <div className="inline-block mb-4 px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full border border-white/30">
+            <p className="text-gray-800 text-sm font-semibold">SSC Board Affiliated School</p>
           </div>
           
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-primary-foreground mb-6 leading-tight">
+          <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 mb-6 leading-tight">
             Shaping Future
-            <span className="block text-secondary">Leaders Today</span>
+            <span className="block text-white drop-shadow-lg">Leaders Today</span>
           </h1>
           
-          <p className="text-xl text-primary-foreground/90 mb-8 leading-relaxed">
+          <p className="text-xl text-gray-800 mb-8 leading-relaxed font-medium">
             NRI High School offers quality education from Nursery to 10th Standard with SSC curriculum, 
             fostering academic excellence and holistic development.
           </p>
@@ -42,7 +42,7 @@ const Hero = () => {
           <div className="mb-12">
             <Button 
               size="lg" 
-              className="bg-secondary hover:opacity-90 text-secondary-foreground"
+              className="bg-gray-900 hover:bg-gray-800 text-white shadow-xl"
               onClick={() => setEnrollDialogOpen(true)}
             >
               Enroll Now <ArrowRight className="ml-2 w-5 h-5" />
@@ -53,24 +53,24 @@ const Hero = () => {
           <div className="grid grid-cols-3 gap-6">
             <div className="text-center">
               <div className="flex justify-center mb-2">
-                <Award className="w-8 h-8 text-accent" />
+                <Award className="w-8 h-8 text-gray-900" />
               </div>
-              <p className="text-3xl font-bold text-primary-foreground">100%</p>
-              <p className="text-sm text-primary-foreground/80">Results</p>
+              <p className="text-3xl font-bold text-gray-900">100%</p>
+              <p className="text-sm text-gray-700 font-medium">Results</p>
             </div>
             <div className="text-center">
               <div className="flex justify-center mb-2">
-                <Users className="w-8 h-8 text-accent" />
+                <Users className="w-8 h-8 text-gray-900" />
               </div>
-              <p className="text-3xl font-bold text-primary-foreground">500+</p>
-              <p className="text-sm text-primary-foreground/80">Students</p>
+              <p className="text-3xl font-bold text-gray-900">500+</p>
+              <p className="text-sm text-gray-700 font-medium">Students</p>
             </div>
             <div className="text-center">
               <div className="flex justify-center mb-2">
-                <BookOpen className="w-8 h-8 text-accent" />
+                <BookOpen className="w-8 h-8 text-gray-900" />
               </div>
-              <p className="text-3xl font-bold text-primary-foreground">50+</p>
-              <p className="text-sm text-primary-foreground/80">Teachers</p>
+              <p className="text-3xl font-bold text-gray-900">50+</p>
+              <p className="text-sm text-gray-700 font-medium">Teachers</p>
             </div>
           </div>
         </div>
