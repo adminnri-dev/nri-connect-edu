@@ -25,16 +25,16 @@ const Hero = () => {
       {/* Content */}
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-3xl animate-fade-in">
-          <div className="inline-block mb-4 px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full border border-white/30">
-            <p className="text-gray-800 text-sm font-semibold">SSC Board Affiliated School</p>
+          <div className="inline-block mb-4 px-4 py-2 bg-white/30 backdrop-blur-sm rounded-full border border-white/50 shadow-lg">
+            <p className="text-orange-900 text-sm font-bold">SSC Board Affiliated School</p>
           </div>
           
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 mb-6 leading-tight">
+          <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]">
             Shaping Future
-            <span className="block text-white drop-shadow-lg">Leaders Today</span>
+            <span className="block text-orange-900">Leaders Today</span>
           </h1>
           
-          <p className="text-xl text-gray-800 mb-8 leading-relaxed font-medium">
+          <p className="text-xl text-white mb-8 leading-relaxed font-semibold drop-shadow-[0_2px_4px_rgba(0,0,0,0.2)]">
             NRI High School offers quality education from Nursery to 10th Standard with SSC curriculum, 
             fostering academic excellence and holistic development.
           </p>
@@ -42,7 +42,7 @@ const Hero = () => {
           <div className="mb-12">
             <Button 
               size="lg" 
-              className="bg-gray-900 hover:bg-gray-800 text-white shadow-xl"
+              className="bg-orange-900 hover:bg-orange-800 text-white shadow-2xl font-bold text-lg px-8 py-6"
               onClick={() => setEnrollDialogOpen(true)}
             >
               Enroll Now <ArrowRight className="ml-2 w-5 h-5" />
@@ -51,26 +51,26 @@ const Hero = () => {
 
           {/* Stats */}
           <div className="grid grid-cols-3 gap-6">
-            <div className="text-center">
+            <div className="text-center bg-white/20 backdrop-blur-sm rounded-lg p-4 shadow-lg">
               <div className="flex justify-center mb-2">
-                <Award className="w-8 h-8 text-gray-900" />
+                <Award className="w-8 h-8 text-orange-900" />
               </div>
-              <p className="text-3xl font-bold text-gray-900">100%</p>
-              <p className="text-sm text-gray-700 font-medium">Results</p>
+              <p className="text-3xl font-bold text-white drop-shadow-md">100%</p>
+              <p className="text-sm text-white font-semibold">Results</p>
             </div>
-            <div className="text-center">
+            <div className="text-center bg-white/20 backdrop-blur-sm rounded-lg p-4 shadow-lg">
               <div className="flex justify-center mb-2">
-                <Users className="w-8 h-8 text-gray-900" />
+                <Users className="w-8 h-8 text-orange-900" />
               </div>
-              <p className="text-3xl font-bold text-gray-900">600+</p>
-              <p className="text-sm text-gray-700 font-medium">Students</p>
+              <p className="text-3xl font-bold text-white drop-shadow-md">600+</p>
+              <p className="text-sm text-white font-semibold">Students</p>
             </div>
-            <div className="text-center">
+            <div className="text-center bg-white/20 backdrop-blur-sm rounded-lg p-4 shadow-lg">
               <div className="flex justify-center mb-2">
-                <BookOpen className="w-8 h-8 text-gray-900" />
+                <BookOpen className="w-8 h-8 text-orange-900" />
               </div>
-              <p className="text-3xl font-bold text-gray-900">30+</p>
-              <p className="text-sm text-gray-700 font-medium">Teachers</p>
+              <p className="text-3xl font-bold text-white drop-shadow-md">30+</p>
+              <p className="text-sm text-white font-semibold">Teachers</p>
             </div>
           </div>
         </div>

@@ -28,7 +28,7 @@ const Header = () => {
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <a href="#home" className="flex items-center gap-4 group">
-            <img src={logo} alt="NRI High School Logo" className="w-30 h-30 object-contain transition-transform group-hover:scale-105" />
+            <img src={logo} alt="NRI High School Logo" className="h-12 w-auto object-contain transition-transform group-hover:scale-105" />
             <div>
               <h1 className="text-2xl md:text-3xl font-bold text-foreground tracking-tight">NRI High School</h1>
               <p className="text-sm text-muted-foreground font-medium">Making Future Leaders Today</p>
