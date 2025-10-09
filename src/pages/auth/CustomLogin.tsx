@@ -162,15 +162,6 @@ export default function CustomLogin() {
               {loading ? 'Logging in...' : 'Login'}
             </Button>
           </form>
-
-          <div className="mt-6 p-4 bg-muted rounded-lg text-sm">
-            <p className="font-semibold mb-2">Test Credentials:</p>
-            <ul className="space-y-1 text-muted-foreground">
-              <li>• Student: NRI24031, Rahul, 2009-03-12</li>
-              <li>• Teacher: TCH101, Suresh, 1985-02-14</li>
-              <li>• Admin: ADM001, Anita, 1979-09-10</li>
-            </ul>
-          </div>
         </CardContent>
       </Card>
     </div>
