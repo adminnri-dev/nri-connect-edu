@@ -1,15 +1,14 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Menu, X, LogIn, UserPlus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import logo from "@/assets/nri-logo.png";
 import AdmissionInquiryDialog from "./AdmissionInquiryDialog";
-import LoginDialog from "./auth/LoginDialog";
 import SignupDialog from "./auth/SignupDialog";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [inquiryDialogOpen, setInquiryDialogOpen] = useState(false);
-  const [loginDialogOpen, setLoginDialogOpen] = useState(false);
   const [signupDialogOpen, setSignupDialogOpen] = useState(false);
 
   const navItems = [
@@ -51,11 +50,13 @@ const Header = () => {
           {/* CTA Buttons */}
           <div className="hidden lg:flex items-center gap-3">
             <Button 
-              onClick={() => setLoginDialogOpen(true)}
+              asChild
               className="gap-2 bg-blue-600 hover:bg-blue-700 text-white"
             >
-              <LogIn className="w-4 h-4" />
-              Login
+              <Link to="/login">
+                <LogIn className="w-4 h-4" />
+                Login
+              </Link>
             </Button>
             <Button 
               variant="secondary"
@@ -102,14 +103,13 @@ const Header = () => {
             ))}
             <div className="pt-4 space-y-2">
               <Button 
+                asChild
                 className="w-full gap-2 bg-blue-600 hover:bg-blue-700 text-white"
-                onClick={() => {
-                  setLoginDialogOpen(true);
-                  setIsMenuOpen(false);
-                }}
               >
-                <LogIn className="w-4 h-4" />
-                Login
+                <Link to="/login" onClick={() => setIsMenuOpen(false)}>
+                  <LogIn className="w-4 h-4" />
+                  Login
+                </Link>
               </Button>
               <Button 
                 variant="secondary"
@@ -139,10 +139,6 @@ const Header = () => {
       <AdmissionInquiryDialog 
         open={inquiryDialogOpen} 
         onOpenChange={setInquiryDialogOpen}
-      />
-      <LoginDialog 
-        open={loginDialogOpen} 
-        onOpenChange={setLoginDialogOpen}
       />
       <SignupDialog 
         open={signupDialogOpen} 
