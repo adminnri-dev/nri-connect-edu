@@ -71,7 +71,7 @@ const Academics = () => {
             <div className="p-8 flex flex-col justify-center">
               <Badge className="w-fit mb-4 bg-primary">SSC Board Excellence</Badge>
               <h3 className="text-3xl font-bold text-foreground mb-4">
-                Maharashtra State Board Curriculum
+                Telangana State Board Curriculum
               </h3>
               <p className="text-muted-foreground mb-6 leading-relaxed">
                 Our SSC (Secondary School Certificate) curriculum is designed to provide students 

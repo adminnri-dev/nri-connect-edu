@@ -69,7 +69,7 @@ const Hero = () => {
               <div className="flex justify-center mb-2">
                 <BookOpen className="w-8 h-8 text-orange-900" />
               </div>
-              <p className="text-3xl font-bold text-white drop-shadow-md">30+</p>
+              <p className="text-3xl font-bold text-white drop-shadow-md">40+</p>
               <p className="text-sm text-white font-semibold">Teachers</p>
             </div>
           </div>
