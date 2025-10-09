@@ -10,15 +10,8 @@ const Hero = () => {
 
   return (
     <section id="home" className="relative min-h-screen flex items-center pt-20">
-      {/* Background Image with Overlay */}
-      <div className="absolute inset-0 z-0">
-        <img 
-          src={heroImage} 
-          alt="NRI High School Campus" 
-          className="w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-primary/95 to-primary/70"></div>
-        
+      {/* Solid Orange and Beige Background */}
+      <div className="absolute inset-0 z-0 bg-gradient-to-br from-orange-500 via-orange-400 to-amber-200">
         {/* Logo Watermark */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
           <img 

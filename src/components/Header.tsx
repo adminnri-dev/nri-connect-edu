@@ -27,11 +27,11 @@ const Header = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <a href="#home" className="flex items-center gap-3">
-            <img src={logo} alt="NRI High School Logo" className="w-16 h-16 object-contain" />
+          <a href="#home" className="flex items-center gap-4 group">
+            <img src={logo} alt="NRI High School Logo" className="w-20 h-20 object-contain transition-transform group-hover:scale-105" />
             <div>
-              <h1 className="text-xl font-bold text-foreground">NRI High School</h1>
-              <p className="text-xs text-muted-foreground">Making Future Leaders Today</p>
+              <h1 className="text-2xl md:text-3xl font-bold text-foreground tracking-tight">NRI High School</h1>
+              <p className="text-sm text-muted-foreground font-medium">Making Future Leaders Today</p>
             </div>
           </a>
 
