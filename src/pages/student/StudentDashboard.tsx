@@ -44,7 +44,7 @@ interface Announcement {
 }
 
 export default function StudentDashboard() {
-  const { user, signOut } = useAuth();
+  const { user, signOut, customUser } = useAuth();
   const [grades, setGrades] = useState<Grade[]>([]);
   const [attendance, setAttendance] = useState<Attendance[]>([]);
   const [announcements, setAnnouncements] = useState<Announcement[]>([]);
@@ -54,6 +54,8 @@ export default function StudentDashboard() {
   useEffect(() => {
     if (user) {
       fetchStudentData();
+    } else {
+      setLoading(false);
     }
   }, [user]);
 
@@ -171,8 +173,12 @@ export default function StudentDashboard() {
 
           <main className="container mx-auto px-4 py-8 flex-1">
         <div className="mb-6">
-          <h2 className="text-3xl font-bold mb-2">Welcome Back!</h2>
-          <p className="text-muted-foreground">{user?.email}</p>
+          <h2 className="text-3xl font-bold mb-2">
+            Welcome Back{customUser ? `, ${customUser.firstName}` : ''}!
+          </h2>
+          <p className="text-muted-foreground">
+            {customUser ? `Student ID: ${customUser.id}` : user?.email}
+          </p>
         </div>
 
         <div className="mb-8">

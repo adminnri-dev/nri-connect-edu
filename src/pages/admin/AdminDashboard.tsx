@@ -29,7 +29,7 @@ import { AdminSidebar } from '@/components/admin/AdminSidebar';
 import { LogoWatermark } from '@/components/LogoWatermark';
 
 export default function AdminDashboard() {
-  const { user, signOut } = useAuth();
+  const { user, signOut, customUser } = useAuth();
   const [stats, setStats] = useState({
     totalStudents: 0,
     totalTeachers: 0,
@@ -38,8 +38,10 @@ export default function AdminDashboard() {
   });
 
   useEffect(() => {
-    fetchDashboardStats();
-  }, []);
+    if (!customUser) {
+      fetchDashboardStats();
+    }
+  }, [customUser]);
 
   const fetchDashboardStats = async () => {
     try {
@@ -87,8 +89,12 @@ export default function AdminDashboard() {
 
           <main className="container mx-auto px-4 py-8 flex-1">
         <div className="mb-6">
-          <h2 className="text-3xl font-bold mb-2">Welcome, Admin!</h2>
-          <p className="text-muted-foreground">{user?.email}</p>
+          <h2 className="text-3xl font-bold mb-2">
+            Welcome{customUser ? `, ${customUser.firstName}` : ', Admin'}!
+          </h2>
+          <p className="text-muted-foreground">
+            {customUser ? `Admin ID: ${customUser.id}` : user?.email}
+          </p>
         </div>
 
         <div className="mb-8">
