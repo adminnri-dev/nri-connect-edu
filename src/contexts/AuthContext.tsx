@@ -84,11 +84,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const signOut = async () => {
     try {
+      // Clear both Supabase auth and custom login localStorage
       await supabase.auth.signOut();
+      localStorage.removeItem('customUser');
       setUser(null);
       setSession(null);
       setUserRole(null);
-      navigate('/auth/login');
+      navigate('/login');
     } catch (error) {
       console.error('Error signing out:', error);
     }
