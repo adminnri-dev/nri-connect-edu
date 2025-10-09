@@ -302,6 +302,39 @@ export type Database = {
         }
         Relationships: []
       }
+      custom_login_sessions: {
+        Row: {
+          created_at: string
+          expires_at: string
+          id: string
+          ip_address: string | null
+          last_activity: string
+          session_token: string
+          user_agent: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          expires_at: string
+          id?: string
+          ip_address?: string | null
+          last_activity?: string
+          session_token: string
+          user_agent?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          expires_at?: string
+          id?: string
+          ip_address?: string | null
+          last_activity?: string
+          session_token?: string
+          user_agent?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       events: {
         Row: {
           all_day: boolean
@@ -491,6 +524,33 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      login_attempts: {
+        Row: {
+          attempted_at: string
+          id: string
+          identifier: string
+          ip_address: string | null
+          success: boolean
+          user_agent: string | null
+        }
+        Insert: {
+          attempted_at?: string
+          id?: string
+          identifier: string
+          ip_address?: string | null
+          success?: boolean
+          user_agent?: string | null
+        }
+        Update: {
+          attempted_at?: string
+          id?: string
+          identifier?: string
+          ip_address?: string | null
+          success?: boolean
+          user_agent?: string | null
+        }
+        Relationships: []
       }
       messages: {
         Row: {
@@ -822,11 +882,60 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      authenticate_with_school_credentials: {
+        Args: { _admission_no: string; _dob: string; _first_name: string }
+        Returns: {
+          email: string
+          full_name: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }[]
+      }
+      check_login_rate_limit: {
+        Args: { _identifier: string; _ip_address?: string }
+        Returns: boolean
+      }
+      check_rate_limit: {
+        Args: {
+          _action: string
+          _max_attempts: number
+          _user_id: string
+          _window_minutes: number
+        }
+        Returns: boolean
+      }
+      cleanup_expired_sessions: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
           _user_id: string
         }
+        Returns: boolean
+      }
+      insert_audit_log: {
+        Args: {
+          _action: string
+          _details?: Json
+          _ip_address?: string
+          _resource_id?: string
+          _resource_type: string
+        }
+        Returns: string
+      }
+      record_login_attempt: {
+        Args: {
+          _identifier: string
+          _ip_address?: string
+          _success: boolean
+          _user_agent?: string
+        }
+        Returns: undefined
+      }
+      teacher_teaches_student: {
+        Args: { _student_id: string; _teacher_id: string }
         Returns: boolean
       }
     }

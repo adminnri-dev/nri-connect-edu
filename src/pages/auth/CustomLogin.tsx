@@ -10,28 +10,7 @@ import { useToast } from '@/hooks/use-toast';
 import { CalendarIcon } from 'lucide-react';
 import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
-
-// Test user database
-const testUsers = [
-  {
-    id: 'NRI24031',
-    firstName: 'Rahul',
-    dob: '2009-03-12',
-    role: 'student'
-  },
-  {
-    id: 'TCH101',
-    firstName: 'Suresh',
-    dob: '1985-02-14',
-    role: 'teacher'
-  },
-  {
-    id: 'ADM001',
-    firstName: 'Anita',
-    dob: '1979-09-10',
-    role: 'admin'
-  }
-];
+import { supabase } from '@/integrations/supabase/client';
 
 export default function CustomLogin() {
   const [schoolId, setSchoolId] = useState('');
@@ -41,50 +20,98 @@ export default function CustomLogin() {
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
-    // Format the selected date to match our database format
-    const formattedDob = dob ? format(dob, 'yyyy-MM-dd') : '';
+    try {
+      if (!schoolId || !firstName || !dob) {
+        toast({
+          title: 'Missing information',
+          description: 'Please fill in all fields',
+          variant: 'destructive',
+        });
+        return;
+      }
 
-    // Check if credentials match any user in our test database
-    const matchedUser = testUsers.find(
-      user =>
-        user.id === schoolId &&
-        user.firstName.toLowerCase() === firstName.toLowerCase() &&
-        user.dob === formattedDob
-    );
+      const formattedDob = format(dob, 'yyyy-MM-dd');
 
-    if (matchedUser) {
-      // Store user info in localStorage
-      localStorage.setItem('customUser', JSON.stringify({
-        id: matchedUser.id,
-        firstName: matchedUser.firstName,
-        role: matchedUser.role
-      }));
+      // Check rate limit first
+      const { data: canAttempt, error: rateLimitError } = await supabase.rpc('check_login_rate_limit', {
+        _identifier: schoolId
+      });
+
+      if (canAttempt === false) {
+        toast({
+          title: 'Too many attempts',
+          description: 'Please wait 15 minutes before trying again.',
+          variant: 'destructive',
+        });
+        return;
+      }
+
+      // Authenticate using secure server-side function
+      const { data: authData, error: authError } = await supabase.rpc('authenticate_with_school_credentials', {
+        _admission_no: schoolId,
+        _first_name: firstName,
+        _dob: formattedDob
+      });
+
+      // Record login attempt
+      await supabase.rpc('record_login_attempt', {
+        _identifier: schoolId,
+        _success: !authError && authData && authData.length > 0
+      });
+
+      if (authError || !authData || authData.length === 0) {
+        toast({
+          title: 'Login failed',
+          description: 'Invalid credentials. Please check your information.',
+          variant: 'destructive',
+        });
+        return;
+      }
+
+      const user = authData[0];
+
+      // Authenticate with Supabase
+      const { error: signInError } = await supabase.auth.signInWithPassword({
+        email: user.email,
+        password: `${schoolId}-${formattedDob}` // Temporary password scheme
+      });
+
+      if (signInError) {
+        toast({
+          title: 'Authentication error',
+          description: 'Session creation failed. Please contact support.',
+          variant: 'destructive',
+        });
+        return;
+      }
 
       toast({
         title: 'Login successful',
-        description: `Welcome back, ${matchedUser.firstName}!`,
+        description: `Welcome back, ${user.full_name}!`,
       });
 
-      // Redirect based on role
+      // Navigate based on role
       setTimeout(() => {
-        if (matchedUser.role === 'student') {
+        if (user.role === 'student') {
           navigate('/student-dashboard');
-        } else if (matchedUser.role === 'teacher') {
+        } else if (user.role === 'teacher') {
           navigate('/teacher-dashboard');
-        } else if (matchedUser.role === 'admin') {
+        } else if (user.role === 'admin') {
           navigate('/admin-dashboard');
         }
       }, 500);
-    } else {
+    } catch (error) {
+      console.error('Login error:', error);
       toast({
-        title: 'Login failed',
-        description: 'Invalid details. Please check and try again.',
+        title: 'Login error',
+        description: 'An unexpected error occurred. Please try again.',
         variant: 'destructive',
       });
+    } finally {
       setLoading(false);
     }
   };

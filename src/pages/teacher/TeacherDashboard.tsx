@@ -28,19 +28,17 @@ interface ClassData {
 }
 
 export default function TeacherDashboard() {
-  const { user, signOut, customUser } = useAuth();
+  const { user, signOut } = useAuth();
   const [classes, setClasses] = useState<ClassData[]>([]);
   const [totalStudents, setTotalStudents] = useState(0);
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
 
   useEffect(() => {
-    if (user && !customUser) {
+    if (user) {
       fetchTeacherData();
-    } else if (customUser) {
-      setLoading(false);
     }
-  }, [user, customUser]);
+  }, [user]);
 
   const fetchTeacherData = async () => {
     try {
@@ -105,10 +103,10 @@ export default function TeacherDashboard() {
           <main className="container mx-auto px-4 py-8 flex-1">
         <div className="mb-6">
           <h2 className="text-3xl font-bold mb-2">
-            Welcome{customUser ? `, ${customUser.firstName}` : ', Teacher'}!
+            Welcome, Teacher!
           </h2>
           <p className="text-muted-foreground">
-            {customUser ? `Teacher ID: ${customUser.id}` : user?.email}
+            {user?.email}
           </p>
         </div>
 
