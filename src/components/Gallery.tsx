@@ -1,21 +1,24 @@
 import { Card } from "@/components/ui/card";
+import assemblyImage1 from "@/assets/gallery-assembly-1.jpg";
+import assemblyImage2 from "@/assets/gallery-assembly-2.jpg";
+import classroomImage from "@/assets/classroom.jpg";
 
 const Gallery = () => {
   const images = [
     {
-      src: "/placeholder.svg",
+      src: classroomImage,
       title: "Modern Classrooms",
       category: "Infrastructure"
     },
     {
-      src: "/placeholder.svg",
-      title: "Science Laboratory",
-      category: "Facilities"
+      src: assemblyImage1,
+      title: "Morning Assembly",
+      category: "Events"
     },
     {
-      src: "/placeholder.svg",
-      title: "Library",
-      category: "Learning"
+      src: assemblyImage2,
+      title: "Student Prayer Session",
+      category: "Events"
     },
     {
       src: "/placeholder.svg",
@@ -29,8 +32,8 @@ const Gallery = () => {
     },
     {
       src: "/placeholder.svg",
-      title: "Annual Day Celebration",
-      category: "Events"
+      title: "Science Laboratory",
+      category: "Facilities"
     }
   ];
 
